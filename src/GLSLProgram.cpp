@@ -27,7 +27,6 @@ namespace GLSLShaderInfo {
 }
 
 GLSLProgram::GLSLProgram() : handle(0), linked(false) {
-	gladLoadGL();
 }
 
 GLSLProgram::~GLSLProgram() {
