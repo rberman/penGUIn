@@ -117,17 +117,41 @@ ExternalProject_add(assimp
 
 set(ASSIMP_INCLUDE_DIR ${assimp_INSTALL_DIR}/include CACHE INTERNAL "Directory of Assimp header files")
 if(MSVC)
-	set(ASSIMP_LIBRARY ${assimp_INSTALL_DIR}/lib/assimp.lib CACHE INTERNAL "Assimp lib file")
+  # in order to prevent DLL hell, each of the DLLs have to be suffixed with the major version and msvc prefix
+  if( MSVC70 OR MSVC71 )
+    set(MSVC_PREFIX "vc70")
+  elseif( MSVC80 )
+    set(MSVC_PREFIX "vc80")
+  elseif( MSVC90 )
+    set(MSVC_PREFIX "vc90")
+  elseif( MSVC10 )
+    set(MSVC_PREFIX "vc100")
+  elseif( MSVC11 )
+    set(MSVC_PREFIX "vc110")
+  elseif( MSVC12 )
+    set(MSVC_PREFIX "vc120")
+  elseif( MSVC14 )
+    set(MSVC_PREFIX "vc140")
+  else()
+    set(MSVC_PREFIX "vc150")
+  endif()
+  set(ASSIMP_LIBRARY_SUFFIX "-${MSVC_PREFIX}-mt" CACHE STRING "the suffix for the assimp windows library" FORCE)
+	set(ASSIMP_LIBRARY ${assimp_INSTALL_DIR}/lib/assimp${ASSIMP_LIBRARY_SUFFIX}.lib CACHE INTERNAL "Assimp lib file")
 else()
 	set(ASSIMP_LIBRARY ${assimp_INSTALL_DIR}/lib/libassimp.a CACHE INTERNAL "Assimp lib file")
 endif()	
 include_directories(${ASSIMP_INCLUDE_DIR})
 
-find_package(ZLIB)
-#if (ZLIB_FOUND)
-#else()
-#	find_package(LibAssimpZlib QUIET)
-#endif(ZLIB_FOUND)
+find_package(ZLIB QUIET)
+if (NOT ZLIB_FOUND)
+	if (MSVC)
+		message("Zlib not found. Setting it to zlib built with assimp")
+		set(ZLIB_LIBRARY debug ${assimp_INSTALL_DIR}/lib/zlibstaticd.lib)
+		set(ZLIB_LIBRARIES ${ZLIB_LIBRARY})
+		SET(ZLIB_FOUND 1)
+	endif()
+endif()
+
 
 #SOIL
 set(soil_checkout_dir ${PROJECT_SOURCE_DIR}/deps/SOIL)
@@ -227,6 +251,7 @@ add_dependencies(${PROJECT_NAME} glfw assimp SOIL)
 # Organize folder structure for Xcode, Visual Studio, etc.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+#copy resource files to build folder so that the executable can find them in the working directory
 add_custom_command(TARGET Basic_Graphics POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:Basic_Graphics>)

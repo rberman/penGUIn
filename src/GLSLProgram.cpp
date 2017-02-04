@@ -287,7 +287,7 @@ void GLSLProgram::setUniform( const char *name, bool val )
 }
 
 void GLSLProgram::printActiveUniforms() {
-#ifdef __APPLE__
+//#ifdef __APPLE__
     // For OpenGL 4.1, use glGetActiveUniform
     GLint nUniforms, size, location, maxLen;
     GLchar * name;
@@ -308,7 +308,8 @@ void GLSLProgram::printActiveUniforms() {
     }
     
     delete [] name;
-#else
+//#else
+	/*
     // For OpenGL 4.3 and above, use glGetProgramResource
     GLint numUniforms = 0;
     glGetProgramInterfaceiv( handle, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
@@ -327,11 +328,13 @@ void GLSLProgram::printActiveUniforms() {
         printf("%-5d %s (%s)\n", results[2], name, getTypeString(results[1]));
         delete [] name;
     }
-#endif
+	*/
+//#endif
+
 }
 
 void GLSLProgram::printActiveUniformBlocks() {
-#ifdef __APPLE__
+//#ifdef __APPLE__
     // For OpenGL 4.1, use glGetActiveUniformBlockiv
     GLint written, maxLength, maxUniLen, nBlocks, binding;
     GLchar * name;
@@ -367,7 +370,8 @@ void GLSLProgram::printActiveUniformBlocks() {
     }
     delete [] name;
     delete [] uniName;
-#else
+//#else
+	/*
     GLint numBlocks = 0;
     
     glGetProgramInterfaceiv(handle, GL_UNIFORM_BLOCK, GL_ACTIVE_RESOURCES, &numBlocks);
@@ -402,11 +406,12 @@ void GLSLProgram::printActiveUniformBlocks() {
         
         delete [] unifIndexes;
     }
-#endif
+	*/
+//#endif
 }
 
 void GLSLProgram::printActiveAttribs() {
-#ifdef __APPLE__
+//#ifdef __APPLE__
     // For OpenGL 4.1, use glGetActiveAttrib
     GLint written, size, location, maxLength, nAttribs;
     GLenum type;
@@ -424,7 +429,8 @@ void GLSLProgram::printActiveAttribs() {
         printf(" %-5d %s (%s)\n", location, name, getTypeString(type));
     }
     delete [] name;
-#else
+//#else
+	/*
     // >= OpenGL 4.3, use glGetProgramResource
     GLint numAttribs;
     glGetProgramInterfaceiv( handle, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numAttribs);
@@ -442,7 +448,8 @@ void GLSLProgram::printActiveAttribs() {
         printf("%-5d %s (%s)\n", results[2], name, getTypeString(results[1]));
         delete [] name;
     }
-#endif
+	*/
+//#endif
 }
 
 const char * GLSLProgram::getTypeString( GLenum type ) {
