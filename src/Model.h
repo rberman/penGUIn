@@ -27,51 +27,55 @@
 #include "Texture.h"
 #include "GLSLProgram.h"
 
-typedef std::shared_ptr<class Importer> ImporterRef;
+namespace basicgraphics {
 
-class ProgressReporter : public Assimp::ProgressHandler
-{
-public:
-    ProgressReporter();
-    ~ProgressReporter();
-    bool Update(float percentage=-1.f);
-    void reset();
-private:
-    bool _firstUpdate;
-};
+	typedef std::shared_ptr<class Importer> ImporterRef;
 
-class Model : public std::enable_shared_from_this<Model>
-{
-public:
-    
-    /*!
-     * Tries to load a model from disk. Scale can be used to scale the vertex locations of the model. If the model contains textures than materialColor will be ignored.
-     */
-    Model(const std::string &filename, const double scale, glm::vec4 materialColor = glm::vec4(1.0));
-    
-    /*!
-     * Given a string in nff format, this will try to load a model
-     */
-    Model(const std::string &fileContents, glm::vec4 materialColor = glm::vec4(1.0));
-    virtual ~Model();
-    
-    virtual void draw(GLSLProgram &shader);
-    
-    
-private:
-    
-    glm::vec4 _materialColor;
-    
-    std::unique_ptr<Assimp::Importer> _importer;
-    std::unique_ptr<ProgressReporter> _reporter;
-    std::vector< std::unique_ptr<Mesh> > _meshes;
-    std::vector< std::shared_ptr<Texture> > _textures;
-    
-    void importMesh(const std::string &filename, int &numIndices, const double scale);
-    void importMeshFromString(const std::string &fileContents);
-    void processNode(aiNode* node, const aiScene* scene, const glm::mat4 scaleMat);
-    std::unique_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4 scaleMat);
-    std::vector<std::shared_ptr<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
-};
+	class ProgressReporter : public Assimp::ProgressHandler
+	{
+	public:
+		ProgressReporter();
+		~ProgressReporter();
+		bool Update(float percentage = -1.f);
+		void reset();
+	private:
+		bool _firstUpdate;
+	};
+
+	class Model : public std::enable_shared_from_this<Model>
+	{
+	public:
+
+		/*!
+		 * Tries to load a model from disk. Scale can be used to scale the vertex locations of the model. If the model contains textures than materialColor will be ignored.
+		 */
+		Model(const std::string &filename, const double scale, glm::vec4 materialColor = glm::vec4(1.0));
+
+		/*!
+		 * Given a string in nff format, this will try to load a model
+		 */
+		Model(const std::string &fileContents, glm::vec4 materialColor = glm::vec4(1.0));
+		virtual ~Model();
+
+		virtual void draw(GLSLProgram &shader);
+
+
+	private:
+
+		glm::vec4 _materialColor;
+
+		std::unique_ptr<Assimp::Importer> _importer;
+		std::unique_ptr<ProgressReporter> _reporter;
+		std::vector< std::unique_ptr<Mesh> > _meshes;
+		std::vector< std::shared_ptr<Texture> > _textures;
+
+		void importMesh(const std::string &filename, int &numIndices, const double scale);
+		void importMeshFromString(const std::string &fileContents);
+		void processNode(aiNode* node, const aiScene* scene, const glm::mat4 scaleMat);
+		std::unique_ptr<Mesh> processMesh(aiMesh* mesh, const aiScene* scene, const glm::mat4 scaleMat);
+		std::vector<std::shared_ptr<Texture>> loadMaterialTextures(aiMaterial* mat, aiTextureType type);
+	};
+
+}
 
 #endif /* Model_hpp */

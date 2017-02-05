@@ -15,9 +15,9 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 
-set (SOURCEFILES src/main.cpp src/App.cpp src/Mesh.cpp src/Model.cpp src/GLSLProgram.cpp src/Texture.cpp src/Box.cpp src/Sphere.cpp src/Cone.cpp src/Cylinder.cpp src/Line.cpp src/glad/src/glad.c)
+set (SOURCEFILES src/main.cpp src/BaseApp.cpp src/ExampleApp.cpp src/Event.cpp src/Mesh.cpp src/Model.cpp src/GLSLProgram.cpp src/Texture.cpp src/Box.cpp src/Sphere.cpp src/Cone.cpp src/Cylinder.cpp src/Line.cpp src/glad/src/glad.c)
 
-set (HEADERFILES src/App.h src/Mesh.h src/Model.h src/GLSLProgram.h src/Texture.h src/Box.h src/Sphere.h src/Cone.h src/Cylinder.h src/Line.h)
+set (HEADERFILES src/BaseApp.h src/ExampleApp.h src/Event.h src/Mesh.h src/Model.h src/GLSLProgram.h src/Texture.h src/Box.h src/Sphere.h src/Cone.h src/Cylinder.h src/Line.h)
 
 source_group("Header Files" FILES ${HEADERFILES})
 
