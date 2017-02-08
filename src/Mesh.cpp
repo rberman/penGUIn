@@ -81,10 +81,15 @@ namespace basicgraphics {
 			shader.setUniform("materialColor", vec4(0.0, 0.0, 0.0, 1.0));
 
 			for (int i = 0; i < _textures.size(); i++) {
-				_textures[i]->bind(i);
 				if (!_textures[i]->isOpaque()) {
 					translucent = true;
+					glDisable(GL_DEPTH_TEST);
+					//Note: This isn't going to work properly because the surfaces are not sorted back to front. Transparent surfaces should be drawn after all the opaque geometry.
+					glEnable(GL_BLEND);
+					glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 				}
+				_textures[i]->bind(i);
+				shader.setUniform("textureSampler", i);
 			}
 		}
 		else {
@@ -92,13 +97,11 @@ namespace basicgraphics {
 			shader.setUniform("materialColor", _materialColor);
 			if (_materialColor.a != 1.0) {
 				translucent = true;
+				glDisable(GL_DEPTH_TEST);
+				//Note: This isn't going to work properly because the surfaces are not sorted back to front. Transparent surfaces should be drawn after all the opaque geometry.
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			}
-		}
-
-		if (translucent) {
-			//Note: This isn't going to work properly because the surfaces are not sorted back to front and we are still depth testing. Transparent surfaces should be drawn after all the opaque geometry.
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		}
 
 		glBindVertexArray(this->getVAOID());
@@ -108,6 +111,7 @@ namespace basicgraphics {
 		if (translucent) {
 			glBlendFunc(GL_ONE, GL_ZERO);
 			glDisable(GL_BLEND);
+			glEnable(GL_DEPTH_TEST);
 		}
 
 		// Reset state
@@ -118,7 +122,7 @@ namespace basicgraphics {
 		}
 	}
 
-	void Mesh::setMaterialColor(glm::vec4 &color)
+	void Mesh::setMaterialColor(const glm::vec4 &color)
 	{
 		_materialColor = color;
 	}

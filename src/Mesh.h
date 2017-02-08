@@ -38,7 +38,7 @@ namespace basicgraphics {
 
 		virtual void draw(GLSLProgram &shader);
 
-		void setMaterialColor(glm::vec4 &color);
+		void setMaterialColor(const glm::vec4 &color);
 
 		// Returns the number of bytes allocated in the vertexVBO
 		int getAllocatedVertexByteSize() const;

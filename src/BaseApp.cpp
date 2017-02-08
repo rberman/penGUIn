@@ -23,6 +23,7 @@ namespace basicgraphics {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_SAMPLES, 4);
 
 		// Create the window
 		_window = glfwCreateWindow(windowWidth, windowHeight, windowName.c_str(), NULL, NULL);
@@ -53,6 +54,7 @@ namespace basicgraphics {
 
 		//Turn on depth testing. This is an optimization so that triangle fragments that are further in depth than something already rendered are not processed
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_MULTISAMPLE);
 
 		// Specify the background color
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);

@@ -27,18 +27,23 @@ namespace basicgraphics {
 		/*!
 		 * Create a line (i.e. a flat ribbon) from start to end. The ribbon surface will face the normal direction and have width of 2*radius
 		 */
-		Line(glm::vec3 &start, glm::vec3 &end, glm::vec3 &normal, float radius, glm::vec4 &color);
+		Line(const glm::vec3 &start, const glm::vec3 &end, const glm::vec3 &normal, const float radius, const glm::vec4 &color);
 		virtual ~Line();
 
-		virtual void draw(GLSLProgram &shader, glm::mat4 &modelMatrix);
+		virtual void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
+
+		/*!
+		* returns the closest point to on the line to pt
+		*/
+		glm::vec3 closestPoint(const glm::vec3 &pt) const;
 
 	protected:
 		std::unique_ptr<Mesh> _mesh;
-		glm::vec3 _start;
-		glm::vec3 _end;
-		glm::vec3 _normal;
-		float _radius;
-		glm::vec4 _color;
+		const glm::vec3 _start;
+		const glm::vec3 _end;
+        glm::vec3 _normal;
+		const float _radius;
+		const glm::vec4 _color;
 	};
 
 }

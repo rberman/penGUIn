@@ -10,9 +10,9 @@
 
 namespace basicgraphics {
 
-	Box::Box(glm::vec3 &min, glm::vec3 &max, glm::vec4 &color) : _min(min), _max(max), _color(color)
+	Box::Box(const glm::vec3 &min, const glm::vec3 &max, const glm::vec4 &color) : _min(min), _max(max), _color(color)
 	{
-		_model.reset(new Model("cube.nff", 1.0, _color));
+		_model.reset(new Model("cube.obj", 1.0, _color));
 
 		glm::vec3 extents = (max - min) / 2.0f;
 		glm::vec3 center = min + extents;
@@ -29,11 +29,22 @@ namespace basicgraphics {
 
 	}
 
-	void Box::draw(GLSLProgram &shader, glm::mat4 &modelMatrix) {
+	void Box::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix) {
 
 		glm::mat4 model = modelMatrix * _localMat;
 		shader.setUniform("model_mat", model);
 		_model->draw(shader);
+		shader.setUniform("model_mat", modelMatrix);
+	}
+
+	bool Box::contains(const glm::vec3 &point) const
+	{
+		return  (point.x >= _min.x) &&
+			(point.y >= _min.y) &&
+			(point.z >= _min.z) &&
+			(point.x <= _max.x) &&
+			(point.y <= _max.y) &&
+			(point.z <= _max.z);
 	}
 
 }

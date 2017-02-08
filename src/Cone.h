@@ -25,18 +25,18 @@ namespace basicgraphics {
 		/*!
 		 * Creates a cone with the base at point1 and the point at point2.
 		 */
-		Cone(glm::vec3 &point1, glm::vec3 &point2, float radius, glm::vec4 &color);
+		Cone(const glm::vec3 &point1, const glm::vec3 &point2, const float radius, const glm::vec4 &color);
 		virtual ~Cone();
 
-		virtual void draw(GLSLProgram &shader, glm::mat4 &modelMatrix);
+		virtual void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
 
 	protected:
 		std::unique_ptr<Model> _model;
-		glm::vec3 _point1;
-		glm::vec3 _point2;
+		const glm::vec3 _point1;
+		const glm::vec3 _point2;
 		glm::mat4 _localMat;
-		float _radius;
-		glm::vec4 _color;
+		const float _radius;
+		const glm::vec4 _color;
 	};
 
 }

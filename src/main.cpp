@@ -14,9 +14,14 @@ using namespace basicgraphics;
 
 int main(int argc, char** argv)
 {
-	ExampleApp *app = new ExampleApp(argc, argv, "Basic graphics application Example", 640, 480);
+	// Initialize freeimage library
+	//FreeImage_Initialise();
+
+	ExampleApp *app = new ExampleApp(argc, argv, "Basic Graphics Example", 640, 480);
 	app->run();
 	delete app;
+
+	//FreeImage_DeInitialise();
 
 	return 0;
 

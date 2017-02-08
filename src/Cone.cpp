@@ -10,9 +10,9 @@
 
 namespace basicgraphics {
 
-	Cone::Cone(glm::vec3 &point1, glm::vec3 &point2, float radius, glm::vec4 &color) : _point1(point1), _point2(point2), _radius(radius), _color(color)
+	Cone::Cone(const glm::vec3 &point1, const glm::vec3 &point2, const float radius, const glm::vec4 &color) : _point1(point1), _point2(point2), _radius(radius), _color(color)
 	{
-		_model.reset(new Model("cone.nff", 1.0, _color));
+		_model.reset(new Model("cone.obj", 1.0, _color));
 
 
 		glm::vec3 direction = point2 - point1;
@@ -23,8 +23,7 @@ namespace basicgraphics {
 		float angle = glm::acos(glm::dot(glm::vec3(0, 1, 0), glm::normalize(direction)));
 		glm::mat4 rotate = glm::toMat4(glm::angleAxis(angle, axis));
 
-		glm::vec4 endpt = (rotate * scale * glm::vec4(0, -0.5, 0, 1));
-		glm::mat4 trans = glm::translate(glm::mat4(1.0), point1 - glm::vec3(endpt));
+		glm::mat4 trans = glm::translate(glm::mat4(1.0), point1 + 0.5f*direction);
 
 		_localMat = trans * rotate * scale;
 
@@ -35,11 +34,12 @@ namespace basicgraphics {
 
 	}
 
-	void Cone::draw(GLSLProgram &shader, glm::mat4 &modelMatrix) {
+	void Cone::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix) {
 
 		glm::mat4 model = modelMatrix * _localMat;
 		shader.setUniform("model_mat", model);
 		_model->draw(shader);
+		shader.setUniform("model_mat", modelMatrix);
 	}
 
 }

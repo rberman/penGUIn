@@ -29,16 +29,21 @@ namespace basicgraphics {
 		 * Creates an axis aligned box. Min specifies the minimum extents and max specifies the maximum extents.
 		 * e.g. to create a 1x1 cube centered on the origin min=(-0.5,-0.5,-0.5) and max=(0.5, 0.5, 0.5)
 		 */
-		Box(glm::vec3 &_min, glm::vec3 &_max, glm::vec4 &color);
+		Box(const glm::vec3 &_min, const glm::vec3 &_max, const glm::vec4 &color);
 		virtual ~Box();
 
-		virtual void draw(GLSLProgram &shader, glm::mat4 &modelMatrix);
+		virtual void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
+
+		/*!
+		* Returns true if position is inside the box
+		*/
+		bool contains(const glm::vec3 &position) const;
 
 	protected:
 		std::unique_ptr<Model> _model;
-		glm::vec3 _min;
-		glm::vec3 _max;
-		glm::vec4 _color;
+		const glm::vec3 _min;
+		const glm::vec3 _max;
+		const glm::vec4 _color;
 		glm::mat4 _localMat;
 	};
 

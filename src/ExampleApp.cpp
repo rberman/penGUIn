@@ -6,8 +6,8 @@ using namespace std;
 namespace basicgraphics {
 	ExampleApp::ExampleApp(int argc, char** argv, std::string windowName, int windowWidth, int windowHeight) : BaseApp(argc, argv, windowName, windowWidth, windowHeight)
 	{
-		_box.reset(new Box(vec3(-0.5, -0.5, -0.5), vec3(0.5, 0.5, 0.5), vec4(1.0, 0, 0, 1.0)));
-		_angle = 0;
+		_box.reset(new Box(vec3(-0.5, -0.5, -0.5), vec3(0.5, 0.5, 0.5), vec4(1.0, 0.0, 0.0, 1.0)));
+        _angle = 0;
 	}
 
 	ExampleApp::~ExampleApp() {}

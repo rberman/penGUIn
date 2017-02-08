@@ -18,6 +18,8 @@
 #include <vector>
 #include <assert.h>
 
+//#include <FreeImage/FreeImagePlus.h>
+
 namespace basicgraphics {
 
 	class Texture : public std::enable_shared_from_this<Texture>

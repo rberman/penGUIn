@@ -73,7 +73,7 @@ namespace basicgraphics {
 			_importer.reset(new Assimp::Importer());
 		}
 
-		const aiScene* scene = _importer->ReadFile(filename, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
+		const aiScene* scene = _importer->ReadFile(filename, aiProcess_Triangulate);
 
 		// If the import failed, report it
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -230,7 +230,7 @@ namespace basicgraphics {
 
 				texture->setTexParameteri(GL_TEXTURE_WRAP_S, GL_REPEAT);
 				texture->setTexParameteri(GL_TEXTURE_WRAP_T, GL_REPEAT);
-				texture->setTexParameteri(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				texture->setTexParameteri(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				texture->setTexParameteri(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 				textures.push_back(texture);

@@ -8,6 +8,7 @@
 
 #include "Texture.h"
 
+
 namespace basicgraphics {
 
 	Texture::Texture(const std::string &name, int width, int height, int depth, int numMipMapLevels, bool autoMipMap, GLenum target, GLenum internalFormat, GLenum externalFormat, GLenum dataFormat, const void* bytes[6])
@@ -29,17 +30,18 @@ namespace basicgraphics {
 			_empty = true;
 		}
 
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+
 		glGenTextures(1, &_texID);
-		glEnable(_target);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 
-		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 4); //TODO: this assumption is not always correct
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-		glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
-		glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+		//glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+		//glPixelStorei(GL_UNPACK_ALIGNMENT, 4); //TODO: this assumption is not always correct
+		//glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+		//glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+		//glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
 
 		switch (_target) {
 		case GL_TEXTURE_1D:
@@ -94,8 +96,9 @@ namespace basicgraphics {
 		if (!_empty && _autoGenMipMaps) {
 			glGenerateMipmap(_target);
 		}
-		glPopClientAttrib();
-		glPopAttrib();
+
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	void Texture::update(const void* bytes, GLenum externalFormat, GLenum dataFormat, int unpackAlignment/*=4*/, int unpackRowLength/*=-1*/, int cubeMapFace/*=0*/)
@@ -103,9 +106,9 @@ namespace basicgraphics {
 		_externalFormat = externalFormat;
 		_dataFormat = dataFormat;
 
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-		glEnable(_target);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -147,20 +150,20 @@ namespace basicgraphics {
 		if (_autoGenMipMaps) {
 			glGenerateMipmap(_target);
 		}
-		glPopClientAttrib();
-		glPopAttrib();
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	void Texture::generateMipMaps()
 	{
 		if (!_empty && _numMipMapLevels > 1) {
-			glPushAttrib(GL_ALL_ATTRIB_BITS);
-			glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-			glEnable(_target);
+			//glPushAttrib(GL_ALL_ATTRIB_BITS);
+			//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+			//glEnable(_target);
 			glBindTexture(_target, _texID);
 			glGenerateMipmap(_target);
-			glPopClientAttrib();
-			glPopAttrib();
+			//glPopClientAttrib();
+			//glPopAttrib();
 		}
 	}
 
@@ -232,6 +235,7 @@ namespace basicgraphics {
 
 	void Texture::save2D(const std::string &file)
 	{
+		
 		assert(_target == GL_TEXTURE_2D);
 		glBindTexture(_target, _texID);
 
@@ -245,63 +249,89 @@ namespace basicgraphics {
 			std::cerr << SOIL_last_result() << std::endl;
 			assert(false);
 		}
+		
+/*
+		assert(_target == GL_TEXTURE_2D);
+		glBindTexture(_target, _texID);
 
+		int size = sizeof(BYTE) * _width * _height * 4;
+		BYTE *raw_img = (BYTE*)malloc(size);
+		glGetTexImage(GL_TEXTURE_2D, 0, GL_BGRA, GL_UNSIGNED_BYTE, raw_img);
+
+		fipImage* image = new fipImage(FIT_BITMAP, _width, _height, 32);
+
+		BYTE* pixels(image->accessPixels());
+
+		const size_t bytesPerPixel = 4;
+		const size_t rowStride = size_t(_width * bytesPerPixel);
+
+		for (int row = 0; row < _height; ++row) {
+			std::memcpy(image->getScanLine(row), raw_img + rowStride * row, rowStride);
+		}
+
+		int flag = 0;
+		if (!image->save(file.c_str(), flag)) {
+			assert(false);
+		}
+		free(raw_img);
+		delete image;
+ */
 
 	}
 
 	void Texture::setTexParameterfv(GLenum param, GLfloat* val)
 	{
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-		glEnable(_target);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 		glTexParameterfv(_target, param, val);
-		glPopClientAttrib();
-		glPopAttrib();
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	void Texture::setTexParameteriv(GLenum param, GLint* val)
 	{
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-		glEnable(_target);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 		glTexParameterIiv(_target, param, val);
-		glPopClientAttrib();
-		glPopAttrib();
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	void Texture::setTexParameteruiv(GLenum param, GLuint* val)
 	{
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-		glEnable(_target);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 		glTexParameterIuiv(_target, param, val);
-		glPopClientAttrib();
-		glPopAttrib();
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	void Texture::setTexParameteri(GLenum param, GLint val)
 	{
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-		glEnable(_target);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 		glTexParameteri(_target, param, val);
-		glPopClientAttrib();
-		glPopAttrib();
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	void Texture::setTexParameterf(GLenum param, GLfloat val)
 	{
-		glPushAttrib(GL_ALL_ATTRIB_BITS);
-		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-		glEnable(_target);
+		//glPushAttrib(GL_ALL_ATTRIB_BITS);
+		//glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		//glEnable(_target);
 		glBindTexture(_target, _texID);
 		glTexParameterf(_target, param, val);
-		glPopClientAttrib();
-		glPopAttrib();
+		//glPopClientAttrib();
+		//glPopAttrib();
 	}
 
 	std::shared_ptr<Texture> Texture::createEmpty(const std::string &name, int width, int height, int depth, int numMipMapLevels, bool autoMipMap, GLenum target, GLenum internalFormat)
@@ -313,6 +343,7 @@ namespace basicgraphics {
 
 	std::shared_ptr<Texture> Texture::createCubeMapFromFiles(const std::string filenames[6], bool generateMipMaps/*=false*/, int numMipMapLevels/*=1*/)
 	{
+		
 		GLenum internalFormat = 0;
 		int width, height, channels;
 		const void* bytesArray[6];
@@ -333,11 +364,11 @@ namespace basicgraphics {
 				faceInternalFormat = GL_LUMINANCE8_ALPHA8;
 
 			case 3:
-				faceInternalFormat = GL_RGB;
+				faceInternalFormat = GL_RGB8;
 				break;
 
 			case 4:
-				faceInternalFormat = GL_RGBA;
+				faceInternalFormat = GL_RGBA8;
 				break;
 
 			default:
@@ -362,6 +393,67 @@ namespace basicgraphics {
 		}
 
 		return tex;
+
+    /*
+		GLenum internalFormat;
+		int width, height;
+		const void* bytesArray[6];
+		fipImage* images[6];
+		for (int face = 0; face < 6; face++) {
+			images[face] = new fipImage();
+			bool success = images[face]->load(filenames[face].c_str());
+			if (!success) {
+				assert(false);//BOOST_ASSERT_MSG(false, ("Unable to load texture: " + filenames[face]).c_str());
+			}
+
+			GLenum faceInternalFormat = determineImageFormat(images[face]);
+
+			// Convert palettized images so row data can be copied easier
+			if (images[face]->getColorType() == FIC_PALETTE) {
+				switch (images[face]->getBitsPerPixel()) {
+				case 1:
+					images[face]->convertToGrayscale();
+					faceInternalFormat = GL_LUMINANCE8;
+					break;
+
+				case 8:
+				case 24:
+					images[face]->convertTo24Bits();
+					faceInternalFormat = GL_RGB8;
+					break;
+
+				case 32:
+					images[face]->convertTo32Bits();
+					faceInternalFormat = GL_RGBA8;
+					break;
+
+				default:
+					assert(false);//BOOST_ASSERT_MSG(false, ("Loaded image data in unsupported palette format: " + filenames[face]).c_str());
+				}
+			}
+
+			if (face == 0) {
+				internalFormat = faceInternalFormat;
+				width = images[face]->getWidth();
+				height = images[face]->getHeight();
+			}
+			else if (faceInternalFormat != internalFormat) {
+				assert(false);
+			}
+
+			BYTE* pixels = images[face]->accessPixels();
+			bytesArray[face] = pixels;
+		}
+
+		std::shared_ptr<Texture> tex(new Texture(filenames[0], width, height, 1, numMipMapLevels, generateMipMaps, GL_TEXTURE_CUBE_MAP, internalFormat, getExternalFormat(internalFormat), determineDataType(internalFormat), bytesArray));
+
+		// Don't delete the images until after the texture is generated or else the bytesArray gets deallocated
+		for (int i = 0; i < 6; i++) {
+			delete images[i];
+		}
+
+		return tex;
+     */
 	}
 
 	std::shared_ptr<Texture> Texture::createFromMemory(const std::string &name, const void* bytes, GLenum dataFormat, GLenum externalFormat, GLenum internalFormat, GLenum target, int width, int height, int depth, bool generateMipMaps/*=false*/, int numMipMapLevels/*=1*/)
@@ -373,6 +465,7 @@ namespace basicgraphics {
 
 	std::shared_ptr<Texture> Texture::create2DTextureFromFile(const std::string &filename, bool generateMipMaps/*=false*/, int numMipMapLevels/*=1*/)
 	{
+	
 		int width, height, channels;
 		unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 		if (image == NULL) {
@@ -390,11 +483,11 @@ namespace basicgraphics {
 			internalFormat = GL_LUMINANCE8_ALPHA8;
 
 		case 3:
-			internalFormat = GL_RGB;
+			internalFormat = GL_RGB8;
 			break;
 
 		case 4:
-			internalFormat = GL_RGBA;
+			internalFormat = GL_RGBA8;
 			break;
 
 		default:
@@ -404,11 +497,110 @@ namespace basicgraphics {
 
 		const void* bytesArray[6];
 		bytesArray[0] = image;
-		std::shared_ptr<Texture> tex(new Texture(filename, width, height, 1, numMipMapLevels, generateMipMaps, GL_TEXTURE_2D, internalFormat, getExternalFormat(internalFormat), determineDataType(internalFormat), bytesArray));
+		std::shared_ptr<Texture> tex(new Texture(filename, width, height, 1, numMipMapLevels, generateMipMaps, GL_TEXTURE_2D, GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, bytesArray));//internalFormat, getExternalFormat(internalFormat), determineDataType(internalFormat), bytesArray));
 		SOIL_free_image_data(image);
 
 		return tex;
+		/*
+
+		fipImage* image = new fipImage();
+		bool success = image->load(filename.c_str());
+		if (!success) {
+			assert(false);
+		}
+
+		GLenum internalFormat = determineImageFormat(image);
+
+		// Convert palettized images so row data can be copied easier
+		if (image->getColorType() == FIC_PALETTE) {
+			switch (image->getBitsPerPixel()) {
+			case 1:
+				image->convertToGrayscale();
+				internalFormat = GL_LUMINANCE8;
+				break;
+
+			case 8:
+			case 24:
+				image->convertTo24Bits();
+				internalFormat = GL_RGB8;
+				break;
+
+			case 32:
+				image->convertTo32Bits();
+				internalFormat = GL_RGBA8;
+				break;
+
+			default:
+				assert(false);
+			}
+		}
+
+		BYTE* pixels = image->accessPixels();
+		const void* bytesArray[6];
+		bytesArray[0] = pixels;
+		std::shared_ptr<Texture> tex(new Texture(filename, image->getWidth(), image->getHeight(), 1, numMipMapLevels, generateMipMaps, GL_TEXTURE_2D, internalFormat, getExternalFormat(internalFormat), determineDataType(internalFormat), bytesArray));
+		delete image;
+
+		return tex;
+*/
 	}
+
+    /*
+	GLenum Texture::determineImageFormat(const fipImage* image)
+	{
+		assert(image->isValid() && image->getImageType() != FIT_UNKNOWN);
+
+		switch (image->getImageType())
+		{
+		case FIT_BITMAP:
+		{
+			switch (image->getBitsPerPixel())
+			{
+			case 8:
+				return GL_LUMINANCE8;
+			case 16:
+				// todo: find matching image format
+				assert(false);
+				break;
+			case 24:
+				return GL_RGB8;
+			case 32:
+				return GL_RGBA8;
+			default:
+				assert(false);
+				break;
+			}
+			break;
+		}
+		case FIT_UINT16:
+			return GL_LUMINANCE16;
+		case FIT_FLOAT:
+			return GL_LUMINANCE32F_ARB;
+		case FIT_RGBF:
+			return GL_RGB32F;
+		case FIT_RGBAF:
+			return GL_RGBA32F;
+
+		case FIT_INT16:
+		case FIT_UINT32:
+		case FIT_INT32:
+		case FIT_DOUBLE:
+		case FIT_RGB16:
+		case FIT_RGBA16:
+		case FIT_COMPLEX:
+		default:
+			assert(false);
+			break;
+		}
+
+		if (image->getColorType() == FIC_CMYK) {
+			assert(false);
+		}
+
+		return 0;
+	}
+
+*/
 
 	Texture::~Texture()
 	{
@@ -424,11 +616,15 @@ namespace basicgraphics {
 	{
 		switch (internalType)
 		{
+		case GL_LUMINANCE:
+			return GL_UNSIGNED_BYTE;
 		case GL_LUMINANCE8:
 			return GL_UNSIGNED_BYTE;
 		case GL_LUMINANCE16:
 			return GL_UNSIGNED_SHORT;
 		case GL_LUMINANCE8_ALPHA8:
+			return GL_UNSIGNED_BYTE;
+		case GL_RGBA:
 			return GL_UNSIGNED_BYTE;
 		case GL_RGB8:
 			return GL_UNSIGNED_BYTE;
@@ -450,18 +646,22 @@ namespace basicgraphics {
 	{
 		switch (internalType)
 		{
+		case GL_LUMINANCE:
 		case GL_LUMINANCE8:
 		case GL_LUMINANCE16:
 		case GL_DEPTH_COMPONENT32F:
 			return GL_RED;
 
+		case GL_LUMINANCE_ALPHA:
 		case GL_LUMINANCE8_ALPHA8:
 			return GL_LUMINANCE_ALPHA;
 
+		case GL_RGB:
 		case GL_RGB8:
 		case GL_RGB32F:
 			return GL_RGB;
 
+		case GL_RGBA:
 		case GL_RGBA8:
 		case GL_RGBA32F:
 			return GL_RGBA;
