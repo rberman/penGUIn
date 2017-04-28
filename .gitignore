@@ -14,9 +14,9 @@ Release
 # build files
 build/
 install/
-deps/glfw
-deps/assimp
-deps/SOIL
+
+
+
 CMakeCache.txt
 CMakeFiles
 cmake_install.cmake
