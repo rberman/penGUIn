@@ -17,6 +17,7 @@
 
 
 
+
 /** This class holds the data for a single articulated joint and bone of an animated character.  It also
     stores a list of 0 or more child bones.  So, it can be used to create a scenegraph for an animated
     character. */

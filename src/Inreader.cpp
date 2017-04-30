@@ -6,10 +6,11 @@ Inreader::Inreader(std::istream *i) {
   in = i;
 }
 
-/** 
+/**
  Checks whether arugment s is the next value in the input stream
  If it is, it removes it from the input stream
  */
+//the same as peek, but if s is next, it 'swallows' s from the input stream. peek does not swallow, always replaced into input stream
 bool Inreader::expect(std::string s) {
   swallowWhitespace();
   if (s.size() == 0) {
@@ -160,3 +161,4 @@ bool Inreader::intChar(char c) {
 bool Inreader::tokenChar(char c) {
   return !std::isspace(c);
 }
+

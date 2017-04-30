@@ -16,12 +16,6 @@ namespace basicgraphics {
     }
 
 
-
-
-
-
-
-
     /***  Below this line, all routines are for loading skeleton and animation data from files ***/
 
 
@@ -135,3 +129,4 @@ namespace basicgraphics {
             return d * glm::pi<float>() / 180;
     }
 }
+
