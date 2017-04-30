@@ -1,40 +1,36 @@
+#pragma once
+
+// Wing header file for penGUIn project
 //
-//  Wing.h
-//  Basic_Graphics
-//
-//  Created by Ruthie Berman on 4/26/17.
-//
-//
+// Created by Connor Valenti on 4/20/2017
 
 #ifndef Wing_h
 #define Wing_h
 
-#include "GLSLProgram.h"
-#include "config.h"
-#include "Texture.h"
+#include <stdio.h>
+
 #include "Mesh.h"
+#include "GLSLProgram.h"
+#include "Texture.h"
 #define GLM_FORCE_RADIANS
 #include <glm/glm/glm.hpp>
-#include <glm/glm/gtc/constants.hpp>
+#include <glm/glm/gtc/matrix_access.hpp>
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtx/quaternion.hpp>
 
 namespace basicgraphics {
-    class Wing {
-    public:
-        Wing();
-        ~Wing(){};
-        
-        // Calculate and set up buffers to render to screen
-        void createWing(float radius);
-        
-        // Draw Penguin wing to screen
-        void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
-        
-    protected:
-        std::vector< std::shared_ptr<Texture> > textures;
-        std::unique_ptr<Mesh> _mesh;
-        glm::mat4 _localMat;
-    };
+	class Wing {
+	public:
+		Wing();
+		~Wing() {};
+		void createWing(float radius);
+		void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
+
+	protected:
+		std::unique_ptr<Mesh> _mesh;
+		std::vector<std::shared_ptr<Texture>> textures;
+		glm::mat4 _localMat;
+	};
 }
 
-
-#endif /* Wing_h */
+#endif
