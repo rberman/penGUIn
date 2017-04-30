@@ -6,6 +6,7 @@
 #include "Body.h"
 #include "Foot.h"
 #include "Wing.h"
+#include "AnimatedCharacter.h"
 #include <string.h>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include "config.h"

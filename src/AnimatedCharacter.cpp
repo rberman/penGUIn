@@ -88,6 +88,9 @@ namespace basicgraphics {
 				parseHierarchy(inr);
 			}
 
+			else if (inr.expect("")) {
+				break;
+			}
 			else {
 
 				std::string tok;

@@ -19,6 +19,7 @@ namespace basicgraphics {
         waddleAdjust = 0.5;
         
         rotation = mat4(1.0);
+		AnimatedCharacter character = AnimatedCharacter(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
         
     }
     
@@ -58,11 +59,15 @@ namespace basicgraphics {
 //        mat4 waddle = toMat4(angleAxis(radians(waddleAngle), vec3(0,0,1)));
         mat4 headShift = translate(mat4(1.0), vec3(0, 1, 0));
 //        mat4 waddleShift = waddle * headShift * mat4(1.0);
+		mat4 leftWingShift = translate(mat4(1.0), vec3(-0.5, 0, 0));
+		mat4 rightWingShift = translate(mat4(1.0), vec3(0.5, 0, 0));
 
         _body->draw(_shader, identity);
         _head->draw(_shader, headShift);
         _leftFoot->draw(_shader, identity);
         _rightFoot->draw(_shader, identity);
+		_leftWing->draw(_shader, leftWingShift);
+		_rightWing->draw(_shader, rightWingShift);
     }
     
     void ExampleApp::onEvent(shared_ptr<Event> event) {

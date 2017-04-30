@@ -3,7 +3,7 @@
 
 template <typename T>
 T amc2meter(T t) {
-  return t * 0.056444;
+  return t * 0.056444f;
 }
 
 

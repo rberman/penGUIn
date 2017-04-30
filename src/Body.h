@@ -2,7 +2,6 @@
 //  Body.h
 //  Basic_Graphics
 //
-//  Created by Ruthie Berman on 4/26/17.
 //
 //
 
