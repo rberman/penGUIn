@@ -5,9 +5,10 @@
 #include "Wing.h"
 
 namespace basicgraphics {
-	Wing::Wing() {
+	Wing::Wing(float radius, vec3 translation) {
 		_localMat = mat4(1.0);
-		createWing(0.1);
+		_localMat[3] = vec4(translation, 1);
+		createWing(radius);
 	}
 
 	void Wing::createWing(float radius) {

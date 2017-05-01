@@ -4,6 +4,10 @@
 #include <string>
 #include "Bone.h"
 #include "Inreader.h"
+#include "Head.h"
+#include "Foot.h"
+#include "Wing.h"
+#include "Body.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm/glm.hpp>
@@ -59,6 +63,14 @@ namespace basicgraphics {
 		void parseRoot(Inreader &inr);
 		void parseBonedata(Inreader &inr);
 		void parseHierarchy(Inreader &inr);
+
+		std::unique_ptr<Foot> _leftFoot;
+		std::unique_ptr<Foot> _rightFoot;
+		std::unique_ptr<Body> _body;
+		std::unique_ptr<Head> _head;
+		std::unique_ptr<Wing> _leftWing;
+		std::unique_ptr<Wing> _rightWing;
+
 
 		bool deg;
 		glm::vec3 position;

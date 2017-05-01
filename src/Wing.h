@@ -21,7 +21,7 @@
 namespace basicgraphics {
 	class Wing {
 	public:
-		Wing();
+		Wing(float radius, vec3 translation);
 		~Wing() {};
 		void createWing(float radius);
 		void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);

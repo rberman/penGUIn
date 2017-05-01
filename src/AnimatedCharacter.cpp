@@ -14,6 +14,12 @@ namespace basicgraphics {
 		anim = NULL;
 		loadSkeleton(asfFilename);
 		loadAnimation(amcFilename);
+		_head.reset(new Head(0.5, vec3(0, 1, 0)));
+		_body.reset(new Body(0.5, vec3(0,0,0)));
+		_leftFoot.reset(new Foot(0.5, vec3(0.15, -0.5, 0)));
+		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.5, 0)));
+		_leftWing.reset(new Wing(0.1, vec3(-0.5, 0, 0)));
+		_rightWing.reset(new Wing(0.1, vec3(0.5, 0, 0)));
 	}
 
 	glm::mat4 AnimatedCharacter::getCurrentCoordinateFrame()
@@ -23,11 +29,14 @@ namespace basicgraphics {
 		return rotation;
 	}
 
-	void
-		AnimatedCharacter::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix)
+	void AnimatedCharacter::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix)
 	{
-		// TODO: Draw your character here!
-
+		_head->draw(shader, modelMatrix);
+		_body->draw(shader, modelMatrix);
+		_leftWing->draw(shader, modelMatrix);
+		_rightWing->draw(shader, modelMatrix);
+		_leftFoot->draw(shader, modelMatrix);
+		_rightFoot->draw(shader, modelMatrix);
 	}
 
 

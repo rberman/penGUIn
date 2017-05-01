@@ -19,7 +19,7 @@
 namespace basicgraphics {
     class Body {
     public:
-        Body(float radius);
+        Body(float radius, vec3 translation);
         ~Body(){};
         
         // Calculate and set up buffers to render to screen

@@ -13,7 +13,7 @@ namespace basicgraphics {
     using namespace std;
     using namespace glm;
     
-    Body::Body(float radius) {
+    Body::Body(float radius, vec3 translation) {
 //        shared_ptr<Texture> tex = Texture::create2DTextureFromFile(TEXTURE_PATH);
 //        tex->setTexParameteri(GL_TEXTURE_WRAP_S, GL_REPEAT);
 //        tex->setTexParameteri(GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -22,6 +22,7 @@ namespace basicgraphics {
 //        textures.push_back(tex);
         
         _localMat = mat4(1.0);
+		_localMat[3] = vec4(translation, 1);
         createBody(radius);
     }
     

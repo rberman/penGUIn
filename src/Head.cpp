@@ -13,7 +13,7 @@ namespace basicgraphics {
     using namespace std;
     using namespace glm;
     
-    Head::Head(float radius) {
+    Head::Head(float radius, vec3 translation) {
 //        shared_ptr<Texture> tex = Texture::create2DTextureFromFile(TEXTURE_PATH);
 //        tex->setTexParameteri(GL_TEXTURE_WRAP_S, GL_REPEAT);
 //        tex->setTexParameteri(GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -21,6 +21,7 @@ namespace basicgraphics {
 //        tex->setTexParameteri(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //        textures.push_back(tex);
         _localMat = mat4(1.0);
+		_localMat[3] = vec4(translation, 1);
         createHead(radius);
         _beak.reset(new Cone(vec3(0,0,.5), vec3(0,0,0.7), 0.1, vec4(1,0.5,0,1)));
                     
@@ -211,7 +212,9 @@ namespace basicgraphics {
         shader.setUniform("model_mat", model);
         _mesh->draw(shader);
 
-        glm::mat4 headShift = translate(mat4(1.0), vec3(0, 1, 0));
+		glm::mat4 headShift = model;
+		headShift[3] = headShift[3] + vec4(0, 1, 0, 0);
+
         _beak->draw(shader, headShift);
     }
 }

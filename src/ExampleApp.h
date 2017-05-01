@@ -31,6 +31,8 @@ namespace basicgraphics {
         std::unique_ptr<Foot> _rightFoot;
         std::unique_ptr<Wing> _leftWing;
         std::unique_ptr<Wing> _rightWing;
+
+		std::unique_ptr<AnimatedCharacter> _jimothy;
         
         //            std::unique_ptr<Sphere> _head;
         //            std::unique_ptr<Cone> _beak;

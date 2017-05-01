@@ -21,7 +21,7 @@
 namespace basicgraphics {
     class Head {
     public:
-        Head(float radius);
+        Head(float radius, vec3 translation);
         ~Head(){};
         
         // Calculate and set up buffers to render to screen

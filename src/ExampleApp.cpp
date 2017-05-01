@@ -6,7 +6,7 @@ using namespace std;
 namespace basicgraphics {
     ExampleApp::ExampleApp(int argc, char** argv, std::string windowName, int windowWidth, int windowHeight) : BaseApp(argc, argv, windowName, windowWidth, windowHeight)
     {
-
+		/*
         _head.reset(new Head(0.5));
         _body.reset(new Body(0.5));
         _leftFoot.reset(new Foot(0.5, vec3(0.15,-0.5,0)));
@@ -17,9 +17,9 @@ namespace basicgraphics {
         _angle = 1.0;
         waddleAngle = 0.0;
         waddleAdjust = 0.5;
-        
+        */
         rotation = mat4(1.0);
-		AnimatedCharacter character = AnimatedCharacter(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
+		_jimothy.reset(new AnimatedCharacter(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH));
         
     }
     
@@ -46,7 +46,7 @@ namespace basicgraphics {
         glm::mat4 model = glm::mat4(1.0);
         
         
-//        model = rotation * model;
+        model = rotation * model;
         
         
         // Update shader variables
@@ -55,19 +55,7 @@ namespace basicgraphics {
         _shader.setUniform("model_mat", model);
         _shader.setUniform("eye_world", eye_world);
         
-        mat4 identity = mat4(1.0);
-//        mat4 waddle = toMat4(angleAxis(radians(waddleAngle), vec3(0,0,1)));
-        mat4 headShift = translate(mat4(1.0), vec3(0, 1, 0));
-//        mat4 waddleShift = waddle * headShift * mat4(1.0);
-		mat4 leftWingShift = translate(mat4(1.0), vec3(-0.5, 0, 0));
-		mat4 rightWingShift = translate(mat4(1.0), vec3(0.5, 0, 0));
-
-        _body->draw(_shader, identity);
-        _head->draw(_shader, headShift);
-        _leftFoot->draw(_shader, identity);
-        _rightFoot->draw(_shader, identity);
-		_leftWing->draw(_shader, leftWingShift);
-		_rightWing->draw(_shader, rightWingShift);
+		_jimothy->draw(_shader, model);
     }
     
     void ExampleApp::onEvent(shared_ptr<Event> event) {
