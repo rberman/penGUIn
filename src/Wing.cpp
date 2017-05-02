@@ -5,24 +5,23 @@
 #include "Wing.h"
 
 namespace basicgraphics {
-	Wing::Wing(float radius, vec3 translation) {
+	Wing::Wing(float height, vec3 translation) {
 		_localMat = mat4(1.0);
 		_localMat[3] = vec4(translation, 1);
-		createWing(radius);
+		createWing(height);
 	}
 
-	void Wing::createWing(float radius) {
+	void Wing::createWing(float height) {
 		const int STACKS = 20;
 		const int SLICES = 40;
 
 		std::vector<Mesh::Vertex> vertexArray;
 		std::vector<int> indexArray;
 
+        const float scaleFactor = 3.5;
+        const float radius = height / scaleFactor;
 		const float stackAngle = glm::pi<float>() / STACKS;
 		const float sliceAngle = 2.0 * glm::pi<float>() / SLICES;
-		const float texStackHeight = 1.0 / STACKS;
-		const float texSliceWidth = 1.0 / SLICES;
-		const float scaleFactor = 3.5;
 
 		std::vector<vec3> topVerts;
 		std::vector<vec3> botVerts;
