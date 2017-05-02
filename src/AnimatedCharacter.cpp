@@ -1,6 +1,5 @@
 #include "AnimatedCharacter.h"
 #include "amcutil.h"
-
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
@@ -20,6 +19,13 @@ namespace basicgraphics {
 		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.5, 0)));
 		_leftWing.reset(new Wing(0.1, vec3(-0.5, 0, 0)));
 		_rightWing.reset(new Wing(0.1, vec3(0.5, 0, 0)));
+		bodyPartInfo.emplace("head", std::make_tuple("head", mat4(1.0)));
+		bodyPartInfo.emplace("body", std::make_tuple("root", mat4(1.0)));
+		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfoot", mat4(1.0)));
+		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfoot", mat4(1.0)));
+		bodyPartInfo.emplace("leftWing", std::make_tuple("lwrist", mat4(1.0)));
+		bodyPartInfo.emplace("rightWing", std::make_tuple("rwrist", mat4(1.0)));
+
 	}
 
 	glm::mat4 AnimatedCharacter::getCurrentCoordinateFrame()
@@ -27,6 +33,35 @@ namespace basicgraphics {
 		glm::mat4 rotation = glm::eulerAngleYXZ(deg2rad(orientation.y), deg2rad(orientation.x), deg2rad(orientation.z));
 		rotation[3] = vec4(position, 1);
 		return rotation;
+	}
+
+	void AnimatedCharacter::calculateModelMatrices()
+	{
+		for (std::unordered_map<std::string, std::tuple<std::string, glm::mat4>>::iterator iter = bodyPartInfo.begin(); iter != bodyPartInfo.end(); ++iter) {
+			std::string key = iter->first;
+			//TODO actually call the calculateModelMatrixForBone for each key
+		}
+	}
+
+	void AnimatedCharacter::calculateModelMatrixForBone(std::string key)
+	{
+		std::shared_ptr<Bone> target = boneTable[key];
+		std::shared_ptr<Bone> current = target;
+		std::vector<mat4> modelMatrices;
+		while (current != boneTable["root"]) {
+			modelMatrices.push_back(current->getCurrentLocalRotation());
+			current = current->_parent;
+		}
+
+		glm::mat4 totalModel = mat4(1.0);
+		for (glm::mat4 matrix : modelMatrices)
+		{
+			totalModel = matrix * totalModel;
+		}
+		totalModel = getCurrentCoordinateFrame() * totalModel;
+
+		//set matrix
+
 	}
 
 	void AnimatedCharacter::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix)
@@ -208,6 +243,7 @@ namespace basicgraphics {
 				}
 				else {
 					boneTable[parent]->addChild(boneTable[child]);
+					boneTable[child]->setParent(boneTable[parent]);
 				}
 				ss >> child;
 			}

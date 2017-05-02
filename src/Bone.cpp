@@ -100,6 +100,11 @@ namespace basicgraphics {
         children.push_back(child);
     }
 
+	void Bone::setParent(std::shared_ptr<Bone> parent)
+	{
+		_parent = parent;
+	}
+
     void Bone::readPose(Inreader &inr)
     {
         float rx=0, ry=0, rz=0;

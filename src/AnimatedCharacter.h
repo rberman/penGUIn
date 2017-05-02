@@ -13,11 +13,10 @@
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtx/euler_angles.hpp>
 #include <vector>
-//#include <G3D/G3DAll.h>
 #include "GLSLProgram.h"
 #include <memory>
 #include <unordered_map>
-
+#include <tuple>
 /** This is the root class for the animated character.  You can also think of this as a root node in
     a scene graph.  The class takes care of loading the skeleton file and also animation file(s) needed
     to draw the skeleton.  The key routine that you need to code is the draw(..) routine.  In it, you
@@ -47,6 +46,8 @@ namespace basicgraphics {
 		// current animation data
 		void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);
 
+		// Calculates absolute model matrices for each body part
+		void calculateModelMatrices();
 
 	protected:
 
@@ -64,12 +65,27 @@ namespace basicgraphics {
 		void parseBonedata(Inreader &inr);
 		void parseHierarchy(Inreader &inr);
 
+		//The input key should correspond to the keys of the boneTable, which are bone names
+		void calculateModelMatrixForBone(std::string key);
+
+		std::unordered_map<std::string, std::tuple<std::string, glm::mat4>> bodyPartInfo; //map of string to tuple
 		std::unique_ptr<Foot> _leftFoot;
+		glm::mat4 leftFootModel;
+
 		std::unique_ptr<Foot> _rightFoot;
+		glm::mat4 rightFootModel;
+
 		std::unique_ptr<Body> _body;
+		glm::mat4 bodyModel;
+
 		std::unique_ptr<Head> _head;
+		glm::mat4 headModel;
+
 		std::unique_ptr<Wing> _leftWing;
+		glm::mat4 leftWingModel;
+
 		std::unique_ptr<Wing> _rightWing;
+		glm::mat4 rightWingModel;
 
 
 		bool deg;

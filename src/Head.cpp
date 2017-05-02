@@ -213,7 +213,7 @@ namespace basicgraphics {
         _mesh->draw(shader);
 
 		glm::mat4 headShift = model;
-		headShift[3] = headShift[3] + vec4(0, 1, 0, 0);
+		headShift[3] = headShift[3] + vec4(0, 0, 0, 0);
 
         _beak->draw(shader, headShift);
     }

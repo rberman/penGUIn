@@ -26,7 +26,7 @@ namespace basicgraphics {
     ExampleApp::~ExampleApp() {}
     
     void ExampleApp::onSimulation(double rdt) {
-        
+		_jimothy->calculateModelMatrices();
     }
     
     

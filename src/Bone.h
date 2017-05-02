@@ -43,6 +43,7 @@ namespace basicgraphics {
         // An array of pointers to the other bones that are children of this one in the scenegraph.  All children
         // attach to the end of the bone.
         std::vector< std::shared_ptr<Bone> > children;
+		std::shared_ptr<Bone> _parent;
 
 
         // This is the key routine that you need to fill in
@@ -53,6 +54,8 @@ namespace basicgraphics {
      bone data from files */
 
         void addChild(std::shared_ptr<Bone> child);
+
+		void setParent(std::shared_ptr<Bone> parent);
 
         void readPose(Inreader &inr);
 
