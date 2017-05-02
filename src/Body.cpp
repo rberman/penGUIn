@@ -13,7 +13,7 @@ namespace basicgraphics {
     using namespace std;
     using namespace glm;
     
-    Body::Body(float radius, vec3 translation) {
+    Body::Body(float height, vec3 translation) {
 //        shared_ptr<Texture> tex = Texture::create2DTextureFromFile(TEXTURE_PATH);
 //        tex->setTexParameteri(GL_TEXTURE_WRAP_S, GL_REPEAT);
 //        tex->setTexParameteri(GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -23,21 +23,22 @@ namespace basicgraphics {
         
         _localMat = mat4(1.0);
 		_localMat[3] = vec4(translation, 1);
-        createBody(radius);
+        createBody(height);
     }
     
-    void Body::createBody(float radius) {
+    void Body::createBody(float height) {
         const int STACKS = 20;
         const int SLICES = 40;
         
         std::vector<Mesh::Vertex> vertexArray;
         std::vector<int> indexArray;
         
+        const float scaleFactor = 1.5;
+        const float radius = height / scaleFactor;
         const float stackAngle = glm::pi<float>() / STACKS;
         const float sliceAngle = 2.0 * glm::pi<float>() / SLICES;
         const float texStackHeight = 1.0 / STACKS;
         const float texSliceWidth = 1.0 / SLICES;
-        const float scaleFactor = 1.5;
         
         std::vector<vec3> topVerts;
         std::vector<vec3> bottomVerts;

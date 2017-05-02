@@ -13,12 +13,12 @@ namespace basicgraphics {
 		anim = NULL;
 		loadSkeleton(asfFilename);
 		loadAnimation(amcFilename);
-		_head.reset(new Head(0.5, vec3(0, 1, 0)));
-		_body.reset(new Body(0.5, vec3(0,0,0)));
-		_leftFoot.reset(new Foot(0.5, vec3(0.15, -0.3, 0)));
-		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.3, 0)));
-		_leftWing.reset(new Wing(0.1, vec3(-0.5, 0, 0)));
-		_rightWing.reset(new Wing(0.1, vec3(0.5, 0, 0)));
+        _head.reset(new Head(0.5, vec3(0,0,0))); // vec3(0, 1, 0)));
+		_body.reset(new Body(0.75, vec3(0,0,0))); // vec3(0,0,0)));
+		_leftFoot.reset(new Foot(0.5, vec3(0,0,0))); // vec3(0.15, -0.3, 0)));
+		_rightFoot.reset(new Foot(0.5, vec3(0,0,0))); // vec3(-0.15, -0.3, 0)));
+		_leftWing.reset(new Wing(0.1, vec3(0,0,0))); // vec3(-0.5, 0, 0)));
+		_rightWing.reset(new Wing(0.1, vec3(0,0,0))); // vec3(0.5, 0, 0)));
 
 		bodyPartInfo.emplace("head", std::make_tuple("head", mat4(1.0)));
 		bodyPartInfo.emplace("body", std::make_tuple("root", mat4(1.0)));
