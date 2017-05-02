@@ -91,7 +91,7 @@ namespace basicgraphics {
         }
         
         // Draw body of head
-        for (int stIndex = 1; stIndex < STACKS - 5; stIndex++) {
+        for (int stIndex = 1; stIndex < STACKS - 1; stIndex++) {
             stackTopY = stackBottomY;
             stackBottomY = radius * cos(stackAngle * (stIndex + 1));
             stackTopRadius = stackBottomRadius;
@@ -168,6 +168,7 @@ namespace basicgraphics {
         
         // Create bottom cone of head
         stackTopY = stackBottomY;
+        stackBottomY = -radius;
         stackTopRadius = stackBottomRadius;
         topVerts = bottomVerts;
         
