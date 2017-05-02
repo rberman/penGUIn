@@ -129,8 +129,8 @@ bool Inreader::readToken(std::string &s) {
 }
 
 bool Inreader::good() {
-  //return (in);
-	return in != nullptr;
+  //return (*in);
+	return in->good();
 }
 
 bool Inreader::readLine(std::string &line) {
