@@ -13,12 +13,8 @@ namespace basicgraphics {
 		anim = NULL;
 		loadSkeleton(asfFilename);
 		loadAnimation(amcFilename);
-		_head.reset(new Head(0.5, vec3(0, 1, 0)));
-		_body.reset(new Body(0.5, vec3(0,0,0)));
-		_leftFoot.reset(new Foot(0.5, vec3(0.15, -0.3, 0)));
-		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.3, 0)));
-		_leftWing.reset(new Wing(0.1, vec3(-0.5, 0, 0)));
-		_rightWing.reset(new Wing(0.1, vec3(0.5, 0, 0)));
+
+		setBody();
 
 		bodyPartInfo.emplace("head", std::make_tuple("head", mat4(1.0)));
 		bodyPartInfo.emplace("body", std::make_tuple("root", mat4(1.0)));
@@ -26,7 +22,36 @@ namespace basicgraphics {
 		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfoot", mat4(1.0)));
 		bodyPartInfo.emplace("leftWing", std::make_tuple("lhumerus", mat4(1.0)));
 		bodyPartInfo.emplace("rightWing", std::make_tuple("rhumerus", mat4(1.0)));
+	}
 
+	void AnimatedCharacter::setBody() {
+		//set body
+		float bodyHeight = calculateLengthFromRoot("lowerneck") + calculateLengthFromRoot("ltibia");
+		_body.reset(new Body(bodyHeight/2, vec3(0, 0, 0)));
+		//set head
+		float headRadius = calculateLengthFromRoot("head") - calculateLengthFromRoot("lowerneck");
+		_head.reset(new Head(headRadius, vec3(0, 0, 0)));
+		//set feet
+		float footHeight = calculateLengthFromRoot("lfoot") - calculateLengthFromRoot("ltibia");
+		_leftFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
+		_rightFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
+		//set wings
+		float wingSize = calculateLengthFromRoot("lwrist") - calculateLengthFromRoot("lclavicle");
+		_leftWing.reset(new Wing(wingSize/2, vec3(0, 0, 0)));
+		_rightWing.reset(new Wing(wingSize/2, vec3(0, 0, 0)));
+
+	}
+
+	float AnimatedCharacter::calculateLengthFromRoot(std::string key) {
+		std::shared_ptr<Bone> target = boneTable[key];
+		std::shared_ptr<Bone> current = target;
+		glm::vec3 compositeBoneVector = vec3(0, 0, 0);
+		while (current != boneTable["root"]) {
+			compositeBoneVector += current->getBoneVector();
+			current = current->_parent;
+		}
+
+		return glm::length(compositeBoneVector);
 	}
 
 	glm::mat4 AnimatedCharacter::getCurrentCoordinateFrame()
@@ -103,8 +128,7 @@ namespace basicgraphics {
 			return d * glm::pi<float>() / 180;
 	}
 
-	void
-		AnimatedCharacter::loadSkeleton(std::string asfFilename)
+	void AnimatedCharacter::loadSkeleton(std::string asfFilename)
 	{
 		std::ifstream in(asfFilename.c_str());
 		Inreader inr(&in);

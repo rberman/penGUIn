@@ -65,6 +65,8 @@ namespace basicgraphics {
 		void parseBonedata(Inreader &inr);
 		void parseHierarchy(Inreader &inr);
 
+		void setBody();
+
 		//The input key should correspond to the keys of the boneTable, which are bone names
 		glm::mat4 calculateModelMatrixForBone(std::string key);
 
