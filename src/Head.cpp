@@ -23,7 +23,7 @@ namespace basicgraphics {
         _localMat = mat4(1.0);
 		_localMat[3] = vec4(translation, 1);
         createHead(radius);
-        _beak.reset(new Cone(vec3(0,0,.5), vec3(0,0,0.7), 0.1, vec4(1,0.5,0,1)));
+        _beak.reset(new Cone(vec3(0, 0, radius), vec3(0, 0, radius * 1.5), radius * 0.25, vec4(1,0.5,0,1)));
                     
     }
     
