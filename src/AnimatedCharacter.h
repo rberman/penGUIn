@@ -66,7 +66,7 @@ namespace basicgraphics {
 		void parseHierarchy(Inreader &inr);
 
 		void setBody();
-
+		float calculateLengthFromRoot(std::string key);
 		//The input key should correspond to the keys of the boneTable, which are bone names
 		glm::mat4 calculateModelMatrixForBone(std::string key);
 

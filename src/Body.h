@@ -19,11 +19,11 @@
 namespace basicgraphics {
     class Body {
     public:
-        Body(float radius, vec3 translation);
+        Body(float height, vec3 translation);
         ~Body(){};
         
         // Calculate and set up buffers to render to screen
-        void createBody(float radius);
+        void createBody(float height);
         
         // Draw Penguin body to screen
         void draw(GLSLProgram &shader, const glm::mat4 &modelMatrix);

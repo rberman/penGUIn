@@ -26,13 +26,13 @@ namespace basicgraphics {
 
 	void AnimatedCharacter::setBody() {
 		//set body
-		float bodyHeight = calculateLengthFromRoot("lowerneck") + calculateLengthFromRoot("ltibia");
+		float bodyHeight = calculateLengthFromRoot("lowerneck") + calculateLengthFromRoot("lfemur");
 		_body.reset(new Body(bodyHeight/2, vec3(0, 0, 0)));
 		//set head
 		float headRadius = calculateLengthFromRoot("head") - calculateLengthFromRoot("lowerneck");
 		_head.reset(new Head(headRadius, vec3(0, 0, 0)));
 		//set feet
-		float footHeight = calculateLengthFromRoot("lfoot") - calculateLengthFromRoot("ltibia");
+		float footHeight = calculateLengthFromRoot("lfoot") - calculateLengthFromRoot("lfemur");
 		_leftFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
 		_rightFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
 		//set wings
