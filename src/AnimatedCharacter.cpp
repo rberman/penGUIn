@@ -52,14 +52,16 @@ namespace basicgraphics {
 		std::vector<mat4> modelMatrices;
 		std::unordered_map<std::string, std::shared_ptr<Bone>> test = boneTable;
 		while (current != boneTable["root"]) {
+            mat4 currentLocalTranslation = translate(mat4(1.0), current->getBoneVector());
+            modelMatrices.push_back(currentLocalTranslation);
 			modelMatrices.push_back(current->getCurrentLocalRotation());
 			current = current->_parent;
 		}
 
 		glm::mat4 totalModel = mat4(1.0);
-		for (glm::mat4 matrix : modelMatrices)
+        for(int i = modelMatrices.size() - 1; i >= 0; i--)
 		{
-			totalModel = matrix * totalModel;
+			totalModel = modelMatrices[i] * totalModel;
 		}
 		//mat4 coordinateFrame = getCurrentCoordinateFrame();
 		//totalModel = getCurrentCoordinateFrame() * totalModel;
