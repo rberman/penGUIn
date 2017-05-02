@@ -94,9 +94,6 @@ bool Inreader::readFloat(float &f) {
   }
   in->putback(c);
   std::stringstream ss(accum);
-  if (accum.find("e") != std::string::npos) {
-	  std::cout << accum << std::endl;
-  }
   ss >> f;
   return true;
 }

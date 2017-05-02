@@ -22,8 +22,10 @@ namespace basicgraphics {
 //        textures.push_back(tex);
         _localMat = mat4(1.0);
 		_localMat[3] = vec4(translation, 1);
-        createHead(radius);
-        _beak.reset(new Cone(vec3(0, 0, radius), vec3(0, 0, radius * 1.5), radius * 0.25, vec4(1,0.5,0,1)));
+		float scaleFactor = 1.2;
+		float newRadius = radius*scaleFactor;
+        createHead(newRadius);
+        _beak.reset(new Cone(vec3(0, 0, newRadius), vec3(0, 0, newRadius * 1.5), newRadius * 0.25, vec4(1,0.5,0,1)));
                     
     }
     

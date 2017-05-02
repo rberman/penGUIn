@@ -33,7 +33,7 @@ namespace basicgraphics {
         std::vector<Mesh::Vertex> vertexArray;
         std::vector<int> indexArray;
         
-        const float scaleFactor = 1.2;
+        const float scaleFactor = 1.1;
         const float radius = height / scaleFactor;
         const float stackAngle = glm::pi<float>() / STACKS;
         const float sliceAngle = 2.0 * glm::pi<float>() / SLICES;

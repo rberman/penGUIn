@@ -37,8 +37,8 @@ namespace basicgraphics {
 		_rightFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
 		//set wings
 		float wingSize = calculateLengthFromRoot("lwrist") - calculateLengthFromRoot("lclavicle");
-		_leftWing.reset(new Wing(wingSize/2, vec3(0, 0, 0)));
-		_rightWing.reset(new Wing(wingSize/2, vec3(0, 0, 0)));
+		_leftWing.reset(new Wing(wingSize/2, vec3(-0.4, 0, 0))); //TODO: calculate based on asf
+		_rightWing.reset(new Wing(wingSize/2, vec3(0.4, 0, 0)));
 
 	}
 
@@ -91,7 +91,6 @@ namespace basicgraphics {
 		//mat4 coordinateFrame = getCurrentCoordinateFrame();
 		//totalModel = getCurrentCoordinateFrame() * totalModel;
 
-		std::cout << key << std::endl;
 		return totalModel;
 	}
 
@@ -103,10 +102,13 @@ namespace basicgraphics {
 		glm::mat4 bodyMat = modelMatrix * std::get<1>(bodyPartInfo["body"]);
 		_body->draw(shader, bodyMat);
 
-		glm::mat4 leftWingMat = modelMatrix * std::get<1>(bodyPartInfo["leftWing"]);
+		
+		mat4 leftWingRotation = glm::toMat4(glm::angleAxis(glm::radians(-90.f), vec3(0, 0, 1)));
+		glm::mat4 leftWingMat = modelMatrix * leftWingRotation * std::get<1>(bodyPartInfo["leftWing"]);
 		_leftWing->draw(shader, leftWingMat);
 
-		glm::mat4 rightWingMat = modelMatrix * std::get<1>(bodyPartInfo["rightWing"]);
+		mat4 rightWingRotation = glm::toMat4(glm::angleAxis(glm::radians(90.f), vec3(0, 0, 1)));
+		glm::mat4 rightWingMat = modelMatrix * rightWingRotation * std::get<1>(bodyPartInfo["rightWing"]);
 		_rightWing->draw(shader, rightWingMat);
 
 		mat4 leftFootRotation = glm::toMat4(glm::angleAxis(glm::radians(25.f),vec3(0,0,1)));
