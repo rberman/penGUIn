@@ -214,9 +214,9 @@ namespace basicgraphics {
     }
     
     void Body::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix) {
-        // TODO: Draw your mesh.
         mat4 model = modelMatrix * _localMat;
         shader.setUniform("model_mat", model);
+        _mesh->setMaterialColor(vec4(0,0,0,1));
         _mesh->draw(shader);
     }
 }
