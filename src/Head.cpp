@@ -210,6 +210,7 @@ namespace basicgraphics {
         // TODO: Draw your mesh.
         mat4 model = modelMatrix * _localMat;
         shader.setUniform("model_mat", model);
+        _mesh->setMaterialColor(vec4(0,0,0,1));
         _mesh->draw(shader);
 
 		glm::mat4 headShift = model;
