@@ -15,15 +15,15 @@ namespace basicgraphics {
 		loadAnimation(amcFilename);
 		_head.reset(new Head(0.5, vec3(0, 1, 0)));
 		_body.reset(new Body(0.5, vec3(0,0,0)));
-		_leftFoot.reset(new Foot(0.5, vec3(0.15, -0.5, 0)));
-		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.5, 0)));
-		_leftWing.reset(new Wing(0.1, vec3(-0.7, 0, 0)));
-		_rightWing.reset(new Wing(0.1, vec3(0.7, 0, 0)));
+		_leftFoot.reset(new Foot(0.5, vec3(0.15, -0.3, 0)));
+		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.3, 0)));
+		_leftWing.reset(new Wing(0.1, vec3(-0.5, 0, 0)));
+		_rightWing.reset(new Wing(0.1, vec3(0.5, 0, 0)));
 
 		bodyPartInfo.emplace("head", std::make_tuple("head", mat4(1.0)));
 		bodyPartInfo.emplace("body", std::make_tuple("root", mat4(1.0)));
-		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfemur", mat4(1.0)));
-		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfemur", mat4(1.0)));
+		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfoot", mat4(1.0)));
+		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfoot", mat4(1.0)));
 		bodyPartInfo.emplace("leftWing", std::make_tuple("lhumerus", mat4(1.0)));
 		bodyPartInfo.emplace("rightWing", std::make_tuple("rhumerus", mat4(1.0)));
 
@@ -61,7 +61,8 @@ namespace basicgraphics {
 		{
 			totalModel = matrix * totalModel;
 		}
-		totalModel = getCurrentCoordinateFrame() * totalModel;
+		//mat4 coordinateFrame = getCurrentCoordinateFrame();
+		//totalModel = getCurrentCoordinateFrame() * totalModel;
 
 		std::cout << key << std::endl;
 		return totalModel;
@@ -81,10 +82,12 @@ namespace basicgraphics {
 		glm::mat4 rightWingMat = modelMatrix * std::get<1>(bodyPartInfo["rightWing"]);
 		_rightWing->draw(shader, rightWingMat);
 
-		glm::mat4 leftFootMat = modelMatrix * std::get<1>(bodyPartInfo["leftFoot"]);
+		mat4 leftFootRotation = glm::toMat4(glm::angleAxis(glm::radians(25.f),vec3(0,0,1)));
+		glm::mat4 leftFootMat = modelMatrix * leftFootRotation * std::get<1>(bodyPartInfo["leftFoot"]);
 		_leftFoot->draw(shader, leftFootMat);
 
-		glm::mat4 rightFootMat = modelMatrix * std::get<1>(bodyPartInfo["rightFoot"]);
+		mat4 rightFootRotation = glm::toMat4(glm::angleAxis(glm::radians(-25.f), vec3(0, 0, 1)));
+		glm::mat4 rightFootMat = modelMatrix * rightFootRotation * std::get<1>(bodyPartInfo["rightFoot"]);
 		_rightFoot->draw(shader, rightFootMat);
 	}
 

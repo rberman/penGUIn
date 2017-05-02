@@ -91,7 +91,7 @@ namespace basicgraphics {
         //hardcoded into a simple foot now. Maybe change later, but maybe just texture, depending on aesthetic desire
         float footHeight = .25 * length;
         float footTopWidth = 3. * legRadius;
-        float footBottomWidth = 2 * footTopWidth;
+        float footBottomWidth = 1.5 * footTopWidth;
         float footBackZ = -legRadius;
         float footFrontZ = 1.5*legRadius;
         float legBottom = -legLength;
