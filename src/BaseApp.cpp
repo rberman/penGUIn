@@ -85,11 +85,19 @@ namespace basicgraphics {
 			glViewport(0, 0, _windowWidth, _windowHeight);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			double curTime = glfwGetTime();
+			onSimulation(curTime - lastTime);
+			lastTime = curTime;
+
 			onRenderGraphics();
 
 			glfwSwapBuffers(_window);
 			glfwPollEvents();
 		}
+	}
+
+	void BaseApp::onSimulation(double rdt) {
+
 	}
 
 	void BaseApp::onRenderGraphics()

@@ -48,7 +48,7 @@ namespace basicgraphics {
         float waddleAdjust;
         
         void onRenderGraphics() override;
-        void onSimulation(double rdt);
+        void onSimulation(double rdt) override;
         void onEvent(std::shared_ptr<Event> event) override;
     };
 }

@@ -83,12 +83,14 @@ namespace basicgraphics {
 		int _windowHeight; //This is based on the framebuffer size, not the windowWidth passed to the constructor
 		int _windowXPos;
 		int _windowYPos;
-
+		double lastTime;
 
 		/*!
 		 * Called from the run loop. You should put any of your drawing code in this member function.
 		 */
 		virtual void onRenderGraphics();
+
+		virtual void onSimulation(double rdt);
 
 		/*!
 		* Events are defined by a name stored as a std::string and some associated data.

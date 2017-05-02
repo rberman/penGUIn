@@ -17,14 +17,15 @@ namespace basicgraphics {
 		_body.reset(new Body(0.5, vec3(0,0,0)));
 		_leftFoot.reset(new Foot(0.5, vec3(0.15, -0.5, 0)));
 		_rightFoot.reset(new Foot(0.5, vec3(-0.15, -0.5, 0)));
-		_leftWing.reset(new Wing(0.1, vec3(-0.5, 0, 0)));
-		_rightWing.reset(new Wing(0.1, vec3(0.5, 0, 0)));
+		_leftWing.reset(new Wing(0.1, vec3(-0.7, 0, 0)));
+		_rightWing.reset(new Wing(0.1, vec3(0.7, 0, 0)));
+
 		bodyPartInfo.emplace("head", std::make_tuple("head", mat4(1.0)));
 		bodyPartInfo.emplace("body", std::make_tuple("root", mat4(1.0)));
-		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfoot", mat4(1.0)));
-		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfoot", mat4(1.0)));
-		bodyPartInfo.emplace("leftWing", std::make_tuple("lwrist", mat4(1.0)));
-		bodyPartInfo.emplace("rightWing", std::make_tuple("rwrist", mat4(1.0)));
+		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfemur", mat4(1.0)));
+		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfemur", mat4(1.0)));
+		bodyPartInfo.emplace("leftWing", std::make_tuple("lhumerus", mat4(1.0)));
+		bodyPartInfo.emplace("rightWing", std::make_tuple("rhumerus", mat4(1.0)));
 
 	}
 
@@ -39,15 +40,17 @@ namespace basicgraphics {
 	{
 		for (std::unordered_map<std::string, std::tuple<std::string, glm::mat4>>::iterator iter = bodyPartInfo.begin(); iter != bodyPartInfo.end(); ++iter) {
 			std::string key = iter->first;
-			//TODO actually call the calculateModelMatrixForBone for each key
+			std::tuple<std::string, glm::mat4> partTuple = bodyPartInfo[key];
+			std::get<1>(bodyPartInfo[key]) = calculateModelMatrixForBone(std::get<0>(partTuple));
 		}
 	}
 
-	void AnimatedCharacter::calculateModelMatrixForBone(std::string key)
+	glm::mat4 AnimatedCharacter::calculateModelMatrixForBone(std::string key)
 	{
 		std::shared_ptr<Bone> target = boneTable[key];
 		std::shared_ptr<Bone> current = target;
 		std::vector<mat4> modelMatrices;
+		std::unordered_map<std::string, std::shared_ptr<Bone>> test = boneTable;
 		while (current != boneTable["root"]) {
 			modelMatrices.push_back(current->getCurrentLocalRotation());
 			current = current->_parent;
@@ -60,18 +63,29 @@ namespace basicgraphics {
 		}
 		totalModel = getCurrentCoordinateFrame() * totalModel;
 
-		//set matrix
-
+		std::cout << key << std::endl;
+		return totalModel;
 	}
 
 	void AnimatedCharacter::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix)
 	{
-		_head->draw(shader, modelMatrix);
-		_body->draw(shader, modelMatrix);
-		_leftWing->draw(shader, modelMatrix);
-		_rightWing->draw(shader, modelMatrix);
-		_leftFoot->draw(shader, modelMatrix);
-		_rightFoot->draw(shader, modelMatrix);
+		glm::mat4 headMat = modelMatrix * std::get<1>(bodyPartInfo["head"]);
+		_head->draw(shader, headMat);
+
+		glm::mat4 bodyMat = modelMatrix * std::get<1>(bodyPartInfo["body"]);
+		_body->draw(shader, bodyMat);
+
+		glm::mat4 leftWingMat = modelMatrix * std::get<1>(bodyPartInfo["leftWing"]);
+		_leftWing->draw(shader, leftWingMat);
+
+		glm::mat4 rightWingMat = modelMatrix * std::get<1>(bodyPartInfo["rightWing"]);
+		_rightWing->draw(shader, rightWingMat);
+
+		glm::mat4 leftFootMat = modelMatrix * std::get<1>(bodyPartInfo["leftFoot"]);
+		_leftFoot->draw(shader, leftFootMat);
+
+		glm::mat4 rightFootMat = modelMatrix * std::get<1>(bodyPartInfo["rightFoot"]);
+		_rightFoot->draw(shader, rightFootMat);
 	}
 
 
