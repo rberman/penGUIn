@@ -38,16 +38,15 @@ namespace basicgraphics {
         }
         
         // Setup the view matrix to set where the camera is located
-        glm::vec3 eye_world = glm::vec3(0, 0, 5);
+        glm::vec3 eye_world = glm::vec3(0, 10, 10);
         glm::mat4 view = glm::lookAt(eye_world, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-        
         // Setup the projection matrix so that things are rendered in perspective
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.01f, 100.0f);
         // Setup the model matrix
         glm::mat4 model = glm::mat4(1.0);
         
         
-        model = rotation * model;
+       // model = rotation * model;
         
         
         // Update shader variables
@@ -64,6 +63,31 @@ namespace basicgraphics {
         if (name == "kbd_ESC_down") {
             glfwSetWindowShouldClose(_window, 1);
         }
+		else if (name == "kbd_UP_down") {
+			std::cout << "up" << std::endl;
+			_jimothy->setOrientation(vec3(0, 0, -1));
+			_jimothy->setMovement(vec3(0, 0, -.1));
+		}
+		else if (name == "kbd_RIGHT_down") {
+			std::cout << "right" << std::endl;
+			_jimothy->setOrientation(vec3(1, 0, 0));
+			_jimothy->setMovement(vec3(.1, 0, 0));
+
+		}
+		else if (name == "kbd_LEFT_down") {
+			std::cout << "left" << std::endl;
+			_jimothy->setOrientation(vec3(-1, 0, 0));
+			_jimothy->setMovement(vec3(-.1, 0, 0));
+
+		}
+		else if (name == "kbd_DOWN_down") {
+			std::cout << "down" << std::endl;
+			_jimothy->setOrientation(vec3(0, 0, 1));
+			_jimothy->setMovement(vec3(0, 0, .1));
+		}
+		else if (name == "kbd_DOWN_up" || name == "kbd_UP_up" || name == "kbd_RIGHT_up" || name == "kbd_LEFT_up") {
+			_jimothy->setMovement(vec3(0, 0, 0));
+		}
         // Rotate the earth when the user clicks and drags the mouse
         else if (name == "mouse_btn_left_down") {
             mouseDown = true;

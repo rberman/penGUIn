@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtx/euler_angles.hpp>
+#include <glm/glm/gtx/vector_angle.hpp>
 #include <vector>
 #include "GLSLProgram.h"
 #include <memory>
@@ -36,6 +37,12 @@ namespace basicgraphics {
 		// the character's pelvis -- all of the root node bones should be drawn relative to this coordinate
 		// frame.  This coordinate frame will change every frame of the animation.
 		glm::mat4 getCurrentCoordinateFrame();
+
+		glm::mat4 getCurrentRotationMatrix();
+
+		void setOrientation(vec3 newOrientation);
+
+		void setMovement(vec3 newMovement);
 
 		// This is an array of pointers to bones.  It will contain one or more bones that are attached to the
 		// root node of the character, each of these bones will, in turn, have 0 or more child bones.
@@ -90,7 +97,13 @@ namespace basicgraphics {
 		std::unique_ptr<Wing> _rightWing;
 		glm::mat4 rightWingModel;
 
+		//these are separate from position and orientation, which are dependencies for the data parsing.
+		glm::vec3 facingStart;
+		glm::vec3 facing;
+		glm::vec3 movement;
+		glm::vec3 location;
 
+		//for data parsing, not penguin movement
 		bool deg;
 		glm::vec3 position;
 		glm::vec3 orientation;
