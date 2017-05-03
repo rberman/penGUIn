@@ -18,8 +18,8 @@ namespace basicgraphics {
 
 		bodyPartInfo.emplace("head", std::make_tuple("head", mat4(1.0)));
 		bodyPartInfo.emplace("body", std::make_tuple("root", mat4(1.0)));
-		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfoot", mat4(1.0)));
-		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfoot", mat4(1.0)));
+		bodyPartInfo.emplace("leftFoot", std::make_tuple("lfemur", mat4(1.0)));
+		bodyPartInfo.emplace("rightFoot", std::make_tuple("rfemur", mat4(1.0)));
 		bodyPartInfo.emplace("leftWing", std::make_tuple("lhumerus", mat4(1.0)));
 		bodyPartInfo.emplace("rightWing", std::make_tuple("rhumerus", mat4(1.0)));
 	}
@@ -33,12 +33,12 @@ namespace basicgraphics {
 		_head.reset(new Head(headRadius, vec3(0, 0, 0)));
 		//set feet
 		float footHeight = calculateLengthFromRoot("lfoot") - calculateLengthFromRoot("lfemur");
-		_leftFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
-		_rightFoot.reset(new Foot(footHeight, vec3(0, 0, 0)));
+		_leftFoot.reset(new Foot(footHeight, vec3(0, 0.3, 0)));
+		_rightFoot.reset(new Foot(footHeight, vec3(0, 0.3, 0)));
 		//set wings
-		float wingSize = calculateLengthFromRoot("lwrist") - calculateLengthFromRoot("lclavicle");
-		_leftWing.reset(new Wing(wingSize/2, vec3(-0.4, 0, 0))); //TODO: calculate based on asf
-		_rightWing.reset(new Wing(wingSize/2, vec3(0.4, 0, 0)));
+		float wingSize = calculateLengthFromRoot("lfingers") - calculateLengthFromRoot("lclavicle");
+		_leftWing.reset(new Wing(wingSize/2, vec3(0.05, -0.3, -.3))); //TODO: calculate based on asf
+		_rightWing.reset(new Wing(wingSize/2, vec3(-0.05, -0.3, -.3)));
 
 	}
 
@@ -59,6 +59,16 @@ namespace basicgraphics {
 		glm::mat4 rotation = glm::eulerAngleYXZ(deg2rad(orientation.y), deg2rad(orientation.x), deg2rad(orientation.z));
 		rotation[3] = vec4(position, 1);
 		return rotation;
+	}
+
+	glm::mat4 AnimatedCharacter::rotateMatrixAtOrigin(mat4 baseMatrix, mat4 rotationMatrix) {
+		vec3 translationVec = baseMatrix[3];
+		mat4 translationToCenter = mat4(1.0);
+		translationToCenter[3] = vec4(-translationVec, 1.0);
+		mat4 translationBack = mat4(1.0);
+		translationBack[3] = vec4(translationVec, 1.0);
+		
+		return (translationBack * rotationMatrix * translationToCenter * baseMatrix);
 	}
 
 	void AnimatedCharacter::calculateModelMatrices()
@@ -103,20 +113,20 @@ namespace basicgraphics {
 		_body->draw(shader, bodyMat);
 
 		
-		mat4 leftWingRotation = glm::toMat4(glm::angleAxis(glm::radians(-90.f), vec3(0, 0, 1)));
-		glm::mat4 leftWingMat = modelMatrix * leftWingRotation * std::get<1>(bodyPartInfo["leftWing"]);
+		mat4 leftWingRotation = glm::toMat4(glm::angleAxis(glm::radians(-50.f), vec3(0, 0, 1)));
+		glm::mat4 leftWingMat = modelMatrix * rotateMatrixAtOrigin(std::get<1>(bodyPartInfo["leftWing"]), leftWingRotation);
 		_leftWing->draw(shader, leftWingMat);
 
-		mat4 rightWingRotation = glm::toMat4(glm::angleAxis(glm::radians(90.f), vec3(0, 0, 1)));
-		glm::mat4 rightWingMat = modelMatrix * rightWingRotation * std::get<1>(bodyPartInfo["rightWing"]);
+		mat4 rightWingRotation = glm::toMat4(glm::angleAxis(glm::radians(50.f), vec3(0, 0, 1)));
+		glm::mat4 rightWingMat = modelMatrix * rotateMatrixAtOrigin(std::get<1>(bodyPartInfo["rightWing"]), rightWingRotation);
 		_rightWing->draw(shader, rightWingMat);
 
 		mat4 leftFootRotation = glm::toMat4(glm::angleAxis(glm::radians(25.f),vec3(0,0,1)));
-		glm::mat4 leftFootMat = modelMatrix * leftFootRotation * std::get<1>(bodyPartInfo["leftFoot"]);
+		glm::mat4 leftFootMat = modelMatrix * rotateMatrixAtOrigin(std::get<1>(bodyPartInfo["leftFoot"]), leftFootRotation);//leftFootRotation * std::get<1>(bodyPartInfo["leftFoot"]);
 		_leftFoot->draw(shader, leftFootMat);
 
 		mat4 rightFootRotation = glm::toMat4(glm::angleAxis(glm::radians(-25.f), vec3(0, 0, 1)));
-		glm::mat4 rightFootMat = modelMatrix * rightFootRotation * std::get<1>(bodyPartInfo["rightFoot"]);
+		glm::mat4 rightFootMat = modelMatrix * rotateMatrixAtOrigin(std::get<1>(bodyPartInfo["rightFoot"]), rightFootRotation);
 		_rightFoot->draw(shader, rightFootMat);
 	}
 

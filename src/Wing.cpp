@@ -8,7 +8,9 @@ namespace basicgraphics {
 	Wing::Wing(float height, vec3 translation) {
 		_localMat = mat4(1.0);
 		_localMat[3] = vec4(translation, 1);
-		createWing(height);
+
+		float scaleFactor = 1.5;
+		createWing(height * scaleFactor);
 	}
 
 	void Wing::createWing(float height) {

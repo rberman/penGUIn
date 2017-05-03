@@ -69,6 +69,7 @@ namespace basicgraphics {
 		float calculateLengthFromRoot(std::string key);
 		//The input key should correspond to the keys of the boneTable, which are bone names
 		glm::mat4 calculateModelMatrixForBone(std::string key);
+		glm::mat4 rotateMatrixAtOrigin(mat4 baseMatrix, mat4 rotationMatrix);
 
 		std::unordered_map<std::string, std::tuple<std::string, glm::mat4>> bodyPartInfo; //map of string to tuple
 		std::unique_ptr<Foot> _leftFoot;
