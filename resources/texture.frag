@@ -15,7 +15,7 @@ out vec4 fragment_colour;
 void main () {
 	vec4 color = materialColor * (1 - hasTexture) + hasTexture * texture(textureSampler, texture_coordinates );
     // Ambient
-    vec3 ambient = 0.05 * color.rgb;
+    vec3 ambient = 0.8 * color.rgb;
     // Diffuse
     vec3 lightDir = normalize(lightPos - position_world);
     vec3 normal = normalize(normal_world);
@@ -27,9 +27,9 @@ void main () {
     float spec = 0.0;
 
     vec3 halfwayDir = normalize(lightDir + viewDir);  
-    spec = pow(max(dot(normal, halfwayDir), 0.0), 32.0);
+    spec = pow(max(dot(normal, halfwayDir), 0.0), 4.0);
 
-    vec3 specular = vec3(0.8) * spec;
+    vec3 specular = vec3(0.2) * spec;
     fragment_colour = vec4(ambient + diffuse + specular, color.a);
 	
 }
