@@ -43,6 +43,10 @@ namespace basicgraphics {
 		void setOrientation(vec3 newOrientation);
 
 		void setMovement(vec3 newMovement);
+        
+        // Reset the current AMC and ASF files
+        void resetASF(std::string asfFilename, std::string amcFilename);
+        void resetAMC(std::string amcFilename);
 
 		// This is an array of pointers to bones.  It will contain one or more bones that are attached to the
 		// root node of the character, each of these bones will, in turn, have 0 or more child bones.

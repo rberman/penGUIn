@@ -34,10 +34,7 @@ namespace basicgraphics {
 
 		std::unique_ptr<AnimatedCharacter> _jimothy;
         
-        //            std::unique_ptr<Sphere> _head;
-        //            std::unique_ptr<Cone> _beak;
-        //            std::unique_ptr<Sphere> _left_eye;
-        //            std::unique_ptr<Sphere> _right_eye;
+        std::unique_ptr<Box> _ground;
 
         float _angle;
         glm::mat4 rotation;

@@ -57,7 +57,7 @@ namespace basicgraphics {
 		glEnable(GL_MULTISAMPLE);
 
 		// Specify the background color
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.3f, 0.3f, 0.9f, 1.0f);
 
 
 		// Set up the shader

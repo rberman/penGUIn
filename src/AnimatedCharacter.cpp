@@ -26,6 +26,16 @@ namespace basicgraphics {
 		bodyPartInfo.emplace("leftWing", std::make_tuple("lhumerus", mat4(1.0)));
 		bodyPartInfo.emplace("rightWing", std::make_tuple("rhumerus", mat4(1.0)));
 	}
+    
+    void AnimatedCharacter::resetASF(std::string asfFilename, std::string amcFilename) {
+        loadSkeleton(asfFilename);
+        loadAnimation(amcFilename);
+        
+    }
+    
+    void AnimatedCharacter::resetAMC(std::string amcFilename) {
+        loadAnimation(amcFilename);
+    }
 
 	void AnimatedCharacter::setBody() {
 		//set body
