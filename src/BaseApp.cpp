@@ -64,9 +64,13 @@ namespace basicgraphics {
 		_shader.compileShader("texture.vert", GLSLShader::VERTEX);
 		_shader.compileShader("texture.frag", GLSLShader::FRAGMENT);
 		_shader.link();
-		_shader.use();
+//		_shader.use();
 
-
+		_groundShader.compileShader("ground.vert", GLSLShader::VERTEX);
+		_groundShader.compileShader("ground.frag", GLSLShader::FRAGMENT);
+		_groundShader.compileShader("ground.geom", GLSLShader::GEOMETRY);
+		_groundShader.link();
+//		_groundShader.use();
 		// Check for opengl errors
 		GLenum err;
 		while ((err = glGetError()) != GL_NO_ERROR) {

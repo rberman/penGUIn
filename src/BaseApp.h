@@ -79,6 +79,7 @@ namespace basicgraphics {
 	protected:
 		GLFWwindow* _window; // Pointer to the window
 		GLSLProgram _shader; // A basic shader to use.
+		GLSLProgram _groundShader; //a shader to shade the ground
 		int _windowWidth;  //This is based on the framebuffer size, not the windowWidth passed to the constructor
 		int _windowHeight; //This is based on the framebuffer size, not the windowWidth passed to the constructor
 		int _windowXPos;

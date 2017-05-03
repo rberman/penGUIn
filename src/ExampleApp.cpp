@@ -6,8 +6,8 @@ using namespace std;
 namespace basicgraphics {
     ExampleApp::ExampleApp(int argc, char** argv, std::string windowName, int windowWidth, int windowHeight) : BaseApp(argc, argv, windowName, windowWidth, windowHeight)
     {
-        const float n = 10.0;
-        _ground.reset(new Box(vec3(-n, -2, -n), vec3(n, -2, n), vec4(1,1,1,1)));
+        const float n = 17.0;
+        _ground.reset(new Box(vec3(-n, -2, -n), vec3(n, -2, n), vec4(0.13,0.55,0.13,1)));
         rotation = mat4(1.0);
 //		_jimothy.reset(new AnimatedCharacter(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH));
         _jimothy.reset(new AnimatedCharacter(DANCE_MOCAP_ASF_PATH, DANCE_MOCAP_AMC_PATH));
@@ -29,7 +29,7 @@ namespace basicgraphics {
         }
         
         // Setup the view matrix to set where the camera is located
-        glm::vec3 eye_world = glm::vec3(0, 10, 10);
+        glm::vec3 eye_world = glm::vec3(0, 7, 15);
         glm::mat4 view = glm::lookAt(eye_world, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
         // Setup the projection matrix so that things are rendered in perspective
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.01f, 100.0f);
@@ -37,17 +37,26 @@ namespace basicgraphics {
         glm::mat4 model = glm::mat4(1.0);
         
         
-       // model = rotation * model;
-        
+       //model = rotation * model;
         
         // Update shader variables
+		_shader.use();
         _shader.setUniform("view_mat", view);
         _shader.setUniform("projection_mat", projection);
         _shader.setUniform("model_mat", model);
         _shader.setUniform("eye_world", eye_world);
-        
-        _ground->draw(_shader, model);
 		_jimothy->draw(_shader, model);
+		_ground->draw(_shader, model);
+
+		_groundShader.use();
+		//_groundShader.setUniform("numBladesX", 30);
+		//_groundShader.setUniform("numBladesY", 30);
+		_groundShader.setUniform("normalLength", 0.2f);
+		_groundShader.setUniform("view_mat", view);
+		_groundShader.setUniform("projection_mat", projection);
+		_groundShader.setUniform("model_mat", model);
+		_groundShader.setUniform("eye_world", eye_world);
+        _ground->draw(_groundShader, model);
     }
     
     void ExampleApp::onEvent(shared_ptr<Event> event) {
