@@ -11,14 +11,16 @@ namespace basicgraphics {
         rotation = mat4(1.0);
 //		_jimothy.reset(new AnimatedCharacter(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH));
         _jimothy.reset(new AnimatedCharacter(DANCE_MOCAP_ASF_PATH, DANCE_MOCAP_AMC_PATH));
-        
+		_characters.push_back(_jimothy);
     }
     
     ExampleApp::~ExampleApp() {}
     
     void ExampleApp::onSimulation(double rdt) {
-		_jimothy->nextFrame();
-		_jimothy->calculateModelMatrices();
+		for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+			character->nextFrame();
+			character->calculateModelMatrices();
+		}
     }
     
     
@@ -45,9 +47,11 @@ namespace basicgraphics {
         _shader.setUniform("projection_mat", projection);
         _shader.setUniform("model_mat", model);
         _shader.setUniform("eye_world", eye_world);
-		_jimothy->draw(_shader, model);
+		for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+			character->draw(_shader, model);
+		}
 		_ground->draw(_shader, model);
-
+		/*
 		_groundShader.use();
 		//_groundShader.setUniform("numBladesX", 30);
 		//_groundShader.setUniform("numBladesY", 30);
@@ -56,7 +60,7 @@ namespace basicgraphics {
 		_groundShader.setUniform("projection_mat", projection);
 		_groundShader.setUniform("model_mat", model);
 		_groundShader.setUniform("eye_world", eye_world);
-        _ground->draw(_groundShader, model);
+        _ground->draw(_groundShader, model);*/
     }
     
     void ExampleApp::onEvent(shared_ptr<Event> event) {
@@ -66,33 +70,68 @@ namespace basicgraphics {
         }
 		else if (name == "kbd_UP_down") {
 			std::cout << "up" << std::endl;
-            _jimothy->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
-			_jimothy->setOrientation(vec3(0, 0, -1));
-			_jimothy->setMovement(vec3(0, 0, -.01));
+			for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+				character->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
+				character->setOrientation(vec3(0, 0, -1));
+				character->setMovement(vec3(0, 0, -.01));
+			}
 		}
 		else if (name == "kbd_RIGHT_down") {
 			std::cout << "right" << std::endl;
-            _jimothy->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
-			_jimothy->setOrientation(vec3(1, 0, 0));
-			_jimothy->setMovement(vec3(.01, 0, 0));
+			for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+				character->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
+				character->setOrientation(vec3(1, 0, 0));
+				character->setMovement(vec3(.01, 0, 0));
+			}
 
 		}
 		else if (name == "kbd_LEFT_down") {
 			std::cout << "left" << std::endl;
-            _jimothy->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
-			_jimothy->setOrientation(vec3(-1, 0, 0));
-			_jimothy->setMovement(vec3(-.01, 0, 0));
+			for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+				character->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
+				character->setOrientation(vec3(-1, 0, 0));
+				character->setMovement(vec3(-.01, 0, 0));
+			}
 
 		}
 		else if (name == "kbd_DOWN_down") {
 			std::cout << "down" << std::endl;
-            _jimothy->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
-			_jimothy->setOrientation(vec3(0, 0, 1));
-			_jimothy->setMovement(vec3(0, 0, .01));
+			for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+				character->resetASF(WALKING_MOCAP_ASF_PATH, WALKING_MOCAP_AMC_PATH);
+				character->setOrientation(vec3(0, 0, 1));
+				character->setMovement(vec3(0, 0, .01));
+			}
 		}
 		else if (name == "kbd_DOWN_up" || name == "kbd_UP_up" || name == "kbd_RIGHT_up" || name == "kbd_LEFT_up") {
-            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, DANCE_MOCAP_AMC_PATH);
-			_jimothy->setMovement(vec3(0, 0, 0));
+			for (std::shared_ptr<AnimatedCharacter> character : _characters) {
+				character->resetASF(DANCE_MOCAP_ASF_PATH, DANCE_MOCAP_AMC_PATH);
+				character->setMovement(vec3(0, 0, 0));
+			}
+		}
+		else if (name == "kbd_0_down") {
+			if (_characters.size() > 1) {
+				_characters.clear();
+				_characters.push_back(_jimothy);
+			}
+			else {
+				_characters.clear();
+				int numWide = 5;
+				int numHigh = 3;
+				float xIncrement = 2.f;
+				float zIncrement = 2.f;
+				float xRight = 0 - (numWide * xIncrement / 2);
+				float zTop = 0 - (numHigh * zIncrement / 2);
+				for (int i = 0; i < numWide; i++) {
+					float xCoord = xRight + (i * xIncrement);
+					for (int j = 0; j < numHigh; j++) {
+						float zCoord = zTop + (j * zIncrement);
+						std::shared_ptr<AnimatedCharacter> newCharacter;
+						newCharacter.reset(new AnimatedCharacter(DANCE_MOCAP_ASF_PATH, DANCE_MOCAP_AMC_PATH));
+						newCharacter->setLocation(vec3(xCoord, 0, zCoord));
+						_characters.push_back(newCharacter);
+					}
+				}
+			}
 		}
         // Rotate the earth when the user clicks and drags the mouse
         else if (name == "mouse_btn_left_down") {
