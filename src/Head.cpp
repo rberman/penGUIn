@@ -180,7 +180,6 @@ namespace basicgraphics {
         nextTop = topVerts[0];
         nextBottom = vec3(0, stackBottomY, 0);
         VBOIndex = vertexArray.size();
-        
         for (int slIndex = 0; slIndex <= SLICES; slIndex++) {
             // Set the triangle points
             prevTop = nextTop;
