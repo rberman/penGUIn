@@ -30,6 +30,7 @@ namespace basicgraphics {
         
         // Setup the view matrix to set where the camera is located
         glm::vec3 eye_world = glm::vec3(0, 7, 15);
+//        glm::vec3 eye_world = glm::vec3(0, 4, 4);
         glm::mat4 view = glm::lookAt(eye_world, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
         // Setup the projection matrix so that things are rendered in perspective
         glm::mat4 projection = glm::perspective(glm::radians(45.0f), (GLfloat)_windowWidth / (GLfloat)_windowHeight, 0.01f, 100.0f);

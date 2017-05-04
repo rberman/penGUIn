@@ -30,7 +30,7 @@ namespace basicgraphics {
 
 		AnimatedCharacter(std::string asfFilename, std::string amcFilename);
 
-		// This should be called once per frame to advance through the animation
+		// This is called once per frame to advance through the animation
 		void nextFrame();
 
 		// This returns the current coordinate frame of the ROOT NODE of the character, typicaly this is

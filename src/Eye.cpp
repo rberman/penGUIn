@@ -20,7 +20,7 @@ namespace basicgraphics {
     
     void Eye::createEye(float radius, vec3 position) {
         _eye.reset(new Sphere(position, radius, vec4(1,1,1,1)));
-        vec3 pupilPosition = vec3(position.x, position.y, position.z + radius + .1);
+        vec3 pupilPosition = vec3(position.x, position.y, position.z + radius + .05);
         float zCoord = position.z + radius;
         createPupil(radius * 0.5, pupilPosition, zCoord);
     }
