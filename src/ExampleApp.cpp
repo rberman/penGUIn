@@ -47,6 +47,7 @@ namespace basicgraphics {
         _shader.setUniform("model_mat", model);
         _shader.setUniform("eye_world", eye_world);
 
+		_jimothy->simulateMovement();
 		if(armyMobilized) {
 			cout << "army mobilized" << std::endl;
 			int numWide = 5;

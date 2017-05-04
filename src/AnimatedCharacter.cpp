@@ -135,12 +135,14 @@ namespace basicgraphics {
 		return totalModel;
 	}
 
+	void AnimatedCharacter::simulateMovement() {
+		location = location + movement;
+	}
+
 	void AnimatedCharacter::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix)
 	{
 		mat4 model = rotateMatrixAtOrigin(modelMatrix, getCurrentRotationMatrix());
-		location = location + movement;
 		model[3] = model[3] + vec4(location, 0);
-
 		glm::mat4 headMat = model * std::get<1>(bodyPartInfo["head"]);
 		_head->draw(shader, headMat);
 
