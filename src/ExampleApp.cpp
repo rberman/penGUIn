@@ -123,6 +123,33 @@ namespace basicgraphics {
 			cout << "zero key pressed" << std::endl;
 			armyMobilized = !armyMobilized;
 		}
+        else if (name == "kbd_1_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, DANCE_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_2_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, PRAIRIE_DOG_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_3_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, GHOST_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_4_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, SUPERHERO_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_5_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, DEVIL_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_6_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, ROADRUNNER_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_7_down") {
+            _jimothy->resetASF(DANCE_MOCAP_ASF_PATH, GENIE_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_8_down") {
+            _jimothy->resetASF(CARTWHEEL_MOCAP_ASF_PATH, CARTWHEEL_MOCAP_AMC_PATH);
+        }
+        else if (name == "kbd_9_down") {
+            _jimothy->resetASF(CARTWHEEL_MOCAP_ASF_PATH, HOP_MOCAP_AMC_PATH);
+        }
         // Rotate the earth when the user clicks and drags the mouse
         else if (name == "mouse_btn_left_down") {
             mouseDown = true;
