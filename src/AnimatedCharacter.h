@@ -44,6 +44,7 @@ namespace basicgraphics {
 
 		void setMovement(vec3 newMovement);
         
+		void setLocation(vec3 position);
         // Reset the current AMC and ASF files
         void resetASF(std::string asfFilename, std::string amcFilename);
         void resetAMC(std::string amcFilename);

@@ -80,6 +80,10 @@ namespace basicgraphics {
 		return rotation;
 	}
 
+	void AnimatedCharacter::setLocation(vec3 position) {
+		location = position;
+	}
+
 	void AnimatedCharacter::setOrientation(vec3 newOrientation) {
 		facing = newOrientation;
 	}

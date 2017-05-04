@@ -32,8 +32,8 @@ namespace basicgraphics {
         std::unique_ptr<Wing> _leftWing;
         std::unique_ptr<Wing> _rightWing;
 
-		std::unique_ptr<AnimatedCharacter> _jimothy;
-        
+		std::shared_ptr<AnimatedCharacter> _jimothy;
+		std::vector<std::shared_ptr<AnimatedCharacter>> _characters;
         std::unique_ptr<Box> _ground;
 
         float _angle;
