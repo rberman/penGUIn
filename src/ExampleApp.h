@@ -33,7 +33,6 @@ namespace basicgraphics {
         std::unique_ptr<Wing> _rightWing;
 
 		std::shared_ptr<AnimatedCharacter> _jimothy;
-		//std::vector<std::shared_ptr<AnimatedCharacter>> _characters;
 		bool armyMobilized;
         std::unique_ptr<Box> _ground;
 

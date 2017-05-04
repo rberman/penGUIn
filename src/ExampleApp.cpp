@@ -64,7 +64,7 @@ namespace basicgraphics {
 					vec3 translation = vec3(xCoord, 0, zCoord);
 					mat4 soldierModel = mat4(1.0);
 					soldierModel[3] = vec4(translation, 1.0);
-					soldierModel = soldierModel * model;
+					soldierModel = model*soldierModel;
 					_jimothy->draw(_shader, soldierModel);
 				}
 			}

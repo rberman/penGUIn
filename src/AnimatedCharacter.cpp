@@ -139,7 +139,7 @@ namespace basicgraphics {
 	{
 		mat4 model = rotateMatrixAtOrigin(modelMatrix, getCurrentRotationMatrix());
 		location = location + movement;
-		model[3] = vec4(location, 1.0);
+		model[3] = model[3] + vec4(location, 0);
 
 		glm::mat4 headMat = model * std::get<1>(bodyPartInfo["head"]);
 		_head->draw(shader, headMat);
