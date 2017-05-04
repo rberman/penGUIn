@@ -23,11 +23,17 @@ namespace basicgraphics {
         _localMat = mat4(1.0);
 		_localMat[3] = vec4(translation, 1);
 		float scaleFactor = 1.2;
-		float newRadius = radius*scaleFactor;
+		float newRadius = radius * scaleFactor;
         createHead(newRadius);
-        _beak.reset(new Cone(vec3(0, 0, newRadius), vec3(0, 0, newRadius * 1.5), newRadius * 0.25, vec4(1,0.5,0,1)));
-                    
+        _beak.reset(new Cone(vec3(0, 0, newRadius),
+                             vec3(0, 0, newRadius * 1.5),
+                             newRadius * 0.25,
+                             vec4(1,0.5,0,1)));
+        _leftEye.reset(new Eye(newRadius * 0.3, vec3(newRadius * 0.2, newRadius * sin(radians(15.0f)), 0.8 * newRadius * cos(radians(15.0f)))));
+        _rightEye.reset(new Eye(newRadius * 0.3, vec3(-newRadius * 0.2, newRadius * sin(radians(15.0f)), 0.8 * newRadius * cos(radians(15.0f)))));
+
     }
+    
     
     void Head::createHead(float radius) {
         const int STACKS = 20;
@@ -208,6 +214,7 @@ namespace basicgraphics {
         _mesh.reset(new Mesh(textures, GL_TRIANGLES, GL_STATIC_DRAW, vertexByteSize, indexByteSize, 0, vertexArray, indexArray.size(), indexByteSize, &indexArray[0]));
     }
     
+    
     void Head::draw(GLSLProgram &shader, const glm::mat4 &modelMatrix) {
         // TODO: Draw your mesh.
         mat4 model = modelMatrix * _localMat;
@@ -217,7 +224,8 @@ namespace basicgraphics {
 
 		glm::mat4 headShift = model;
 		headShift[3] = headShift[3] + vec4(0, 0, 0, 0);
-
         _beak->draw(shader, headShift);
+        _leftEye->draw(shader, headShift);
+        _rightEye->draw(shader, headShift);
     }
 }

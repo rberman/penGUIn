@@ -36,7 +36,6 @@ namespace basicgraphics {
         
         std::unique_ptr<Box> _ground;
 
-        float _angle;
         glm::mat4 rotation;
         bool mouseDown;
         glm::vec2 lastMousePos;
